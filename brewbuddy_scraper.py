@@ -61,9 +61,29 @@ for node in nodes[0].childNodes:
 				for grandchild_node in grandchild_nodes:
 					attrs = grandchild_node.attributes
 					if attrs is not None:
-						print attrs.items()
-	#attrs = node.attributes
-	#print node
-	#print attrs
-	#print attrs.keys()
-	#print attrs['class'].value
+						#print attrs.items()
+						#[(u'class', u'name')]
+						#[(u'class', u'address')]
+						#[(u'class', u'telephone')]
+						#[(u'class', u'brewery_type')]
+						#[(u'class', u'url')]
+						if grandchild_node.hasAttribute('class') and attrs['class'].value == "name":
+							lowest_nodes = grandchild_node.childNodes
+							for lowest_node in lowest_nodes:
+								print lowest_node.nodeValue
+						if grandchild_node.hasAttribute('class') and attrs['class'].value == "address":
+							lowest_nodes = grandchild_node.childNodes
+							for lowest_node in lowest_nodes:
+								print lowest_node.nodeValue
+						if grandchild_node.hasAttribute('class') and attrs['class'].value == "telephone":	
+							lowest_nodes = grandchild_node.childNodes
+							for lowest_node in lowest_nodes:
+								print lowest_node.nodeValue
+						if grandchild_node.hasAttribute('class') and attrs['class'].value == "brewery_type":
+							lowest_nodes = grandchild_node.childNodes
+							for lowest_node in lowest_nodes:
+								print lowest_node.nodeValue
+						if grandchild_node.hasAttribute('class') and attrs['class'].value == "url":
+							lowest_nodes = grandchild_node.childNodes
+							for lowest_node in lowest_nodes:
+								print lowest_node.nodeValue
