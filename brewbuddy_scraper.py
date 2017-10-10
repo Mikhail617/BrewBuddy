@@ -39,10 +39,10 @@ response = requests.post('https://www.brewersassociation.org/wp-admin/admin-ajax
 
 # open a file to save the brewery data
 f = open('brewery.csv', 'w')
-f.write("NAME, ADDRESS 1, ADDRESS2, MAP, TELEPHONE, TYPE, URL")
+f.write("NAME, ADDRESS, MAP, TELEPHONE, TYPE, URL\n")
 
 def write_to_csv(name, address1, address2, map, telephone, type, url):
-	f.write(name + "," + address1 + "," +  address2 + "," + map + "," + telephone + "," + type + "," + url + "\n")
+	f.write('"' + name + '"' + "," + '"' + address1 +  address2 + '"' + "," + map + "," + telephone + "," + type + "," + url + "\n")
 
 xml_data = response.content
 xml_data = xml_data.replace('&', '&amp;')
