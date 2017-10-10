@@ -1,3 +1,8 @@
+# encoding=utf8
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
+
 from bs4 import BeautifulSoup
 import requests
 import re
@@ -27,9 +32,17 @@ response = requests.post('https://www.brewersassociation.org/wp-admin/admin-ajax
 
 #print response.content
 
+# this is just to save and analyze the xml response
 #f = open('out.txt', 'w')
 #print >> f, response.content
 #f.close()
+
+# open a file to save the brewery data
+f = open('brewery.csv', 'w')
+f.write("NAME, ADDRESS 1, ADDRESS2, TELEPHONE, TYPE")
+
+def write_to_csv(name, address1, address2, telephone, type):
+	f.write(name + "," + address1 + "," +  address2 + "," + telephone + "," + type + "\n")
 
 xml_data = response.content
 xml_data = xml_data.replace('&', '&amp;')
@@ -40,6 +53,7 @@ xml_data = xml_data.replace('&', '&amp;')
 xml_data = xml_data.replace("O'Fallon", "O&quot;Fallon")
 xml_data = xml_data.replace("John's", "John&quot;s")
 
+# this is just to save and analyze the xml response
 #f = open('out.txt', 'w')
 #print >> f, xml_data
 #f.close()
@@ -49,6 +63,12 @@ dom = minidom.parseString('<root>'+xml_data+'</root>')
 nodes = dom.childNodes
 
 for node in nodes[0].childNodes:
+	name = ''
+	address1 = ''
+	address2 = ''
+	telephone = ''
+	type = ''
+	url = ''
 	child_nodes = node.childNodes
 	for child_node in child_nodes:
 		#print child_node
@@ -70,20 +90,45 @@ for node in nodes[0].childNodes:
 						if grandchild_node.hasAttribute('class') and attrs['class'].value == "name":
 							lowest_nodes = grandchild_node.childNodes
 							for lowest_node in lowest_nodes:
+								if lowest_node.nodeValue is not None:
+									name = lowest_node.nodeValue
 								print lowest_node.nodeValue
 						if grandchild_node.hasAttribute('class') and attrs['class'].value == "address":
 							lowest_nodes = grandchild_node.childNodes
 							for lowest_node in lowest_nodes:
+								if lowest_node.nodeValue is not None:
+									address1 = lowest_node.nodeValue
 								print lowest_node.nodeValue
+						if not grandchild_node.hasAttribute('class'):
+							lowest_nodes = grandchild_node.childNodes
+							for lowest_node in lowest_nodes:
+								if lowest_node.nodeValue is not None:
+									address2 = lowest_node.nodeValue
+								print lowest_node.nodeValue							
 						if grandchild_node.hasAttribute('class') and attrs['class'].value == "telephone":	
 							lowest_nodes = grandchild_node.childNodes
 							for lowest_node in lowest_nodes:
+								if lowest_node.nodeValue is not None:
+									telephone = lowest_node.nodeValue
 								print lowest_node.nodeValue
 						if grandchild_node.hasAttribute('class') and attrs['class'].value == "brewery_type":
 							lowest_nodes = grandchild_node.childNodes
 							for lowest_node in lowest_nodes:
+								if lowest_node.nodeValue is not None:
+									type = lowest_node.nodeValue
 								print lowest_node.nodeValue
 						if grandchild_node.hasAttribute('class') and attrs['class'].value == "url":
 							lowest_nodes = grandchild_node.childNodes
 							for lowest_node in lowest_nodes:
+								if lowest_node.nodeValue is not None:
+									url = lowest_node.nodeValue
 								print lowest_node.nodeValue
+					else:
+						pass
+						#print grandchild_node.nodeValue
+				write_to_csv(name, address1, address2, telephone, type)
+# Use BeautifulSoup to parse the response						
+#soup = BeautifulSoup(response.content, "html.parser")
+#print soup.prettify()
+
+f.close()
