@@ -19,8 +19,8 @@ soup = BeautifulSoup(data, "html.parser")
 #print soup.prettify()
 
 # get all the different state search result links
-for link in soup.find_all('a', href=re.compile(r'.*searchby=state*.')):
-	print urlparse.urljoin(url, link['href'])
+#for link in soup.find_all('a', href=re.compile(r'.*searchby=state*.')):
+#	print urlparse.urljoin(url, link['href'])
 
 data = {
 'action':'get_breweries',
@@ -39,10 +39,10 @@ response = requests.post('https://www.brewersassociation.org/wp-admin/admin-ajax
 
 # open a file to save the brewery data
 f = open('brewery.csv', 'w')
-f.write("NAME, ADDRESS 1, ADDRESS2, TELEPHONE, TYPE")
+f.write("NAME, ADDRESS 1, ADDRESS2, MAP, TELEPHONE, TYPE, URL")
 
-def write_to_csv(name, address1, address2, telephone, type):
-	f.write(name + "," + address1 + "," +  address2 + "," + telephone + "," + type + "\n")
+def write_to_csv(name, address1, address2, map, telephone, type, url):
+	f.write(name + "," + address1 + "," +  address2 + "," + map + "," + telephone + "," + type + "," + url + "\n")
 
 xml_data = response.content
 xml_data = xml_data.replace('&', '&amp;')
@@ -92,41 +92,47 @@ for node in nodes[0].childNodes:
 							for lowest_node in lowest_nodes:
 								if lowest_node.nodeValue is not None:
 									name = lowest_node.nodeValue
-								print lowest_node.nodeValue
+								#print lowest_node.nodeValue
 						if grandchild_node.hasAttribute('class') and attrs['class'].value == "address":
 							lowest_nodes = grandchild_node.childNodes
 							for lowest_node in lowest_nodes:
 								if lowest_node.nodeValue is not None:
 									address1 = lowest_node.nodeValue
-								print lowest_node.nodeValue
+								#print lowest_node.nodeValue
 						if not grandchild_node.hasAttribute('class'):
 							lowest_nodes = grandchild_node.childNodes
 							for lowest_node in lowest_nodes:
 								if lowest_node.nodeValue is not None:
 									address2 = lowest_node.nodeValue
-								print lowest_node.nodeValue							
+								#print lowest_node.nodeValue
+								sub_lowest_nodes = lowest_node.childNodes
+								#print sub_lowest_nodes
+								for sub_lowest_node in sub_lowest_nodes:
+									if sub_lowest_node.nodeValue is not None:
+										map = sub_lowest_node.nodeValue
+									#print sub_lowest_node.nodeValue # this just prints "Map"
 						if grandchild_node.hasAttribute('class') and attrs['class'].value == "telephone":	
 							lowest_nodes = grandchild_node.childNodes
 							for lowest_node in lowest_nodes:
 								if lowest_node.nodeValue is not None:
 									telephone = lowest_node.nodeValue
-								print lowest_node.nodeValue
+								#print lowest_node.nodeValue
 						if grandchild_node.hasAttribute('class') and attrs['class'].value == "brewery_type":
 							lowest_nodes = grandchild_node.childNodes
 							for lowest_node in lowest_nodes:
 								if lowest_node.nodeValue is not None:
 									type = lowest_node.nodeValue
-								print lowest_node.nodeValue
+								#print lowest_node.nodeValue
 						if grandchild_node.hasAttribute('class') and attrs['class'].value == "url":
 							lowest_nodes = grandchild_node.childNodes
 							for lowest_node in lowest_nodes:
-								if lowest_node.nodeValue is not None:
-									url = lowest_node.nodeValue
-								print lowest_node.nodeValue
+								sub_lowest_nodes = lowest_node.childNodes
+								url = sub_lowest_nodes[0].nodeValue
+								#print sub_lowest_nodes[0].nodeValue
 					else:
 						pass
 						#print grandchild_node.nodeValue
-				write_to_csv(name, address1, address2, telephone, type)
+				write_to_csv(name, address1, address2, str(map), telephone, type, str(url))
 # Use BeautifulSoup to parse the response						
 #soup = BeautifulSoup(response.content, "html.parser")
 #print soup.prettify()
