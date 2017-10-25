@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">BrewBuddy</string>
+    <string name="title_activity_brew_buddy_map">Brewery Map</string>
+    <string name="label_map_button">Brewery Map</string>
+</resources>
