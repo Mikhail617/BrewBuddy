@@ -18,4 +18,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, BrewBuddyMapActivity.class);
         startActivity(intent);
     }
+
+    public void breweryButtonClickFunction(View v)
+    {
+        Intent intent = new Intent(this, BreweryListAcitvity.class);
+        startActivity(intent);
+    }
 }
