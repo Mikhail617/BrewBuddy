@@ -41,6 +41,13 @@
                 android:layout_alignParentRight="true"
                 android:text="Brews"/>
 
+            <Button
+                android:id="@+id/btnButton5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="Add a Brew"/>
+
         </RelativeLayout>
         <Button
             android:text="@string/label_map_button"
