@@ -16,6 +16,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.LocationSource;
@@ -78,17 +79,30 @@ public class BrewBuddyMapActivity extends FragmentActivity implements OnMapReady
                 lm.requestLocationUpdates(provider, 20000, 0, (LocationListener) this);
             }
 
+            // Marker test - works!
+            //LatLng address = getLocationFromAddress(this, "22755 Hawthorne Blvd, Torrance, CA 90505-3613");
+            //mMap.addMarker(new MarkerOptions().position(address).title("Zymurgy Brew Works"));
+            //mMap.moveCamera(CameraUpdateFactory.newLatLng(address));
+
+            plot_breweries_from_file();
+
             if (myLocation != null) {
                 LatLng userLocation = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 14), 1500, null);
             }
 
-            // Marker test - works!
-            LatLng address = getLocationFromAddress(this, "22755 Hawthorne Blvd, Torrance, CA 90505-3613");
-            mMap.addMarker(new MarkerOptions().position(address).title("Zymurgy Brew Works"));
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(address));
+            mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
+                @Override
+                public void onMyLocationChange(Location location) {
 
-            plot_breweries_from_file();
+                    CameraUpdate center=CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
+                    CameraUpdate zoom=CameraUpdateFactory.zoomTo(11);
+                    mMap.moveCamera(center);
+                    mMap.animateCamera(zoom);
+
+                }
+            });
+
         }
     }
 
