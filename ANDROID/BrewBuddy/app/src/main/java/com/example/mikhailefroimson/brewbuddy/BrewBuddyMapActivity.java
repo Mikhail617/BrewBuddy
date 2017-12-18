@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
+import android.location.Address;
 import android.location.Criteria;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -26,6 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class BrewBuddyMapActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
@@ -79,6 +82,13 @@ public class BrewBuddyMapActivity extends FragmentActivity implements OnMapReady
                 LatLng userLocation = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 14), 1500, null);
             }
+
+            // Marker test - works!
+            LatLng address = getLocationFromAddress(this, "22755 Hawthorne Blvd, Torrance, CA 90505-3613");
+            mMap.addMarker(new MarkerOptions().position(address).title("Zymurgy Brew Works"));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(address));
+
+            plot_breweries_from_file();
         }
     }
 
@@ -105,5 +115,51 @@ public class BrewBuddyMapActivity extends FragmentActivity implements OnMapReady
     @Override
     public void onProviderDisabled(String provider) {
 
+    }
+
+    public LatLng getLocationFromAddress(Context context, String strAddress)
+    {
+        Geocoder coder= new Geocoder(context);
+        List<Address> address;
+        LatLng p1 = null;
+
+        try
+        {
+            address = coder.getFromLocationName(strAddress, 5);
+            if(address==null)
+            {
+                return null;
+            }
+            Address location = address.get(0);
+            location.getLatitude();
+            location.getLongitude();
+
+            p1 = new LatLng(location.getLatitude(), location.getLongitude());
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return p1;
+
+    }
+
+    public void plot_breweries_from_file() {
+        InputStream inputStream = getResources().openRawResource(R.raw.breweries);
+        Utils.CSVFile csvFile = new Utils.CSVFile(inputStream);
+        List breweryList = csvFile.read();
+        for(Object breweryData:breweryList ) {
+            // place marker on the map
+            String[] sbreweryData = (String[]) breweryData;
+            try {
+                //Log.d(TAG, "Brewery item: " + Arrays.toString(sbreweryData));
+                if(sbreweryData[2].contains("NJ")) {
+                    LatLng address = getLocationFromAddress(this, sbreweryData[1] + "," + sbreweryData[2]);
+                    mMap.addMarker(new MarkerOptions().position(address).title(sbreweryData[0]));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
