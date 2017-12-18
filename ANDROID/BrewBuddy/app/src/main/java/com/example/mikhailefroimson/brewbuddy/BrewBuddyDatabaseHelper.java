@@ -71,7 +71,7 @@ public class BrewBuddyDatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(BrewBuddyDatabaseContract.Breweries.COLUMN_NAME_NAME, brewery_name);
         values.put(BrewBuddyDatabaseContract.Breweries.COLUMN_NAME_ADDRESS, brewery_address);
-        Values.put(BrewBuddyDatabaseContract.Breweries.COLUMN_NAME_TYPE, brewery_type);
+        values.put(BrewBuddyDatabaseContract.Breweries.COLUMN_NAME_TYPE, brewery_type);
 
         // Insert the new row, returning the primary key value of the new row
         long newRowId = db.insert(BrewBuddyDatabaseContract.Breweries.TABLE_NAME_BREWERIES, null, values);

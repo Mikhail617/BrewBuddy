@@ -39,11 +39,11 @@
 
         <activity
             android:name=".BrewBuddyMapActivity"
-            android:label="@string/title_activity_brew_buddy_map"></activity>
-
+            android:label="@string/title_activity_brew_buddy_map" />
         <activity
             android:name=".BreweryListAcitvity"
-            android:label="@string/title_activity_brewery_list"></activity>
+            android:label="@string/title_activity_brewery_list" />
+        <activity android:name=".AddABrewActivity"></activity>
     </application>
 
 </manifest>

@@ -24,4 +24,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, BreweryListAcitvity.class);
         startActivity(intent);
     }
+
+    public void addABrewButtonClickFunction(View v) {
+        Intent intent = new Intent(this, AddABrewActivity.class);
+        startActivity(intent);
+    }
 }
