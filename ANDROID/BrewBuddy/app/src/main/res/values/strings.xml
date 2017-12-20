@@ -8,5 +8,6 @@
     <string name="BrewType">Type</string>
     <string name="BreweryName">Address</string>
     <string name="BreweryAddress">Address</string>
+    <string name="BrewLocationUseCurrent">Use your current location</string>
     <string name="SubmitBrewButton">Add Brew</string>
 </resources>

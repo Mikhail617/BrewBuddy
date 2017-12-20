@@ -5,6 +5,9 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
+import android.util.Log;
+
+import java.io.File;
 
 /**
  * Created by mikhail.efroimson on 12/18/2017.
@@ -12,9 +15,17 @@ import android.provider.BaseColumns;
 
 public class BrewBuddyDatabaseHelper extends SQLiteOpenHelper {
 
+    private static String TAG = "BrewBuddyDatabaseHelper";
+
     // If you change the database schema, you must increment the database version.
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "BrewBuddy.db";
+
+    public BrewBuddyDatabaseHelper(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        boolean doesExist = doesDatabaseExist(context, DATABASE_NAME);
+        Log.d(TAG, "BrewBuddy.db exists = " + doesExist);
+    }
 
     private static final String SQL_CREATE_BREWERIES =
             "CREATE TABLE " + BrewBuddyDatabaseContract.Breweries.TABLE_NAME_BREWERIES + " (" +
@@ -40,12 +51,14 @@ public class BrewBuddyDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
+        db.execSQL(SQL_CREATE_BREWERIES);
+        db.execSQL(SQL_CREATE_BREWS);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        db.execSQL(SQL_CREATE_BREWERIES);
+        db.execSQL(SQL_CREATE_BREWS);
     }
 
     public void addBrew(String brew_name, String brew_type) {
@@ -76,5 +89,11 @@ public class BrewBuddyDatabaseHelper extends SQLiteOpenHelper {
         // Insert the new row, returning the primary key value of the new row
         long newRowId = db.insert(BrewBuddyDatabaseContract.Breweries.TABLE_NAME_BREWERIES, null, values);
     }
+
+    private static boolean doesDatabaseExist(Context context, String dbName) {
+        File dbFile = context.getDatabasePath(dbName);
+        return dbFile.exists();
+    }
+
 }
 

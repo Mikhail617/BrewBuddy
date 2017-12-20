@@ -43,7 +43,10 @@
         <activity
             android:name=".BreweryListAcitvity"
             android:label="@string/title_activity_brewery_list" />
-        <activity android:name=".AddABrewActivity"></activity>
+        <activity android:name=".AddABrewActivity" />
+        <activity
+            android:name=".BrewListActivity"
+            android:label="Brews" />
     </application>
 
 </manifest>

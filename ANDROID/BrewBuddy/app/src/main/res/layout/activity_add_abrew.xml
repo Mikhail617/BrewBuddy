@@ -34,11 +34,18 @@
             android:layout_width="fill_parent">
         </EditText>
 
+        <CheckBox
+            android:id="@+id/CheckBoxResponse"
+            android:layout_height="wrap_content"
+            android:text="@string/BrewLocationUseCurrent"
+            android:layout_width="fill_parent">
+        </CheckBox>
+
         <Button
             android:id="@+id/ButtonSendFeedback"
             android:layout_height="wrap_content"
             android:text="@string/SubmitBrewButton"
-            android:onClick="sendFeedback"
+            android:onClick="addBrew"
             android:layout_width="fill_parent">
         </Button>
 
