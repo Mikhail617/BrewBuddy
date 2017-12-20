@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
@@ -15,6 +18,10 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -84,7 +91,8 @@ public class BrewBuddyMapActivity extends FragmentActivity implements OnMapReady
             //mMap.addMarker(new MarkerOptions().position(address).title("Zymurgy Brew Works"));
             //mMap.moveCamera(CameraUpdateFactory.newLatLng(address));
 
-            plot_breweries_from_file();
+            //plot_breweries_from_file();
+            plot_breweries_from_db();
 
             if (myLocation != null) {
                 LatLng userLocation = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
@@ -174,6 +182,37 @@ public class BrewBuddyMapActivity extends FragmentActivity implements OnMapReady
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public void plot_breweries_from_db() {
+        // Create DatabaseHelper instance
+        BrewBuddyDatabaseHelper dataHelper = new BrewBuddyDatabaseHelper(this);
+        // Open the database for reading
+        SQLiteDatabase db = dataHelper.getReadableDatabase();
+        // Start the transaction.
+        db.beginTransaction();
+        try {
+            String selectQuery = "SELECT * FROM " + BrewBuddyDatabaseContract.Breweries.TABLE_BREWERIES;
+            Cursor cursor = db.rawQuery(selectQuery, null);
+            if (cursor.getCount() > 0) {
+                while (cursor.moveToNext()) {
+                    String brewery_name = cursor.getString(cursor.getColumnIndex("Name"));
+                    String brewery_address = cursor.getString(cursor.getColumnIndex("Address"));
+                    LatLng address = getLocationFromAddress(this, brewery_address);
+                    mMap.addMarker(new MarkerOptions().position(address).title(brewery_name));
+                }
+            }
+            db.setTransactionSuccessful();
+
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+
+        } finally {
+            db.endTransaction();
+            // End the transaction.
+            db.close();
+            // Close database
         }
     }
 }
