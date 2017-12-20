@@ -26,12 +26,12 @@ public class BreweryListAcitvity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_brews);
+        setContentView(R.layout.activity_brewery_list);
         context = this;
         // Create DatabaseHelper instance
         BrewBuddyDatabaseHelper dataHelper = new BrewBuddyDatabaseHelper(context);
         // Reference to TableLayout
-        TableLayout tableLayout = (TableLayout) findViewById(R.id.tablelayout);
+        TableLayout tableLayout = (TableLayout) findViewById(R.id.breweryTableLayout);
         // Add header row
         TableRow rowHeader = new TableRow(context);
         rowHeader.setBackgroundColor(Color.parseColor("#c0c0c0"));
@@ -74,7 +74,7 @@ public class BreweryListAcitvity extends AppCompatActivity {
                     row.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
                             TableLayout.LayoutParams.WRAP_CONTENT));
                     //String[] colText = {outlet_id + "", outlet_name, outlet_type};
-                    String[] colText = {brewery_name, brewery_type};
+                    String[] colText = {brewery_name, brewery_type, brewery_address, brewery_phone, brewery_website};
                     for (String text : colText) {
                         TextView tv = new TextView(this);
                         tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,

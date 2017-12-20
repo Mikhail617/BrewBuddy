@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
 
         for(Object breweryData:breweryList ) {
             String[] brewery_data_for_db = {"", "", "", "", "", "", "", ""};
-            Log.d("DEBUG", "breweryData length = " + Array.getLength(((String []) breweryData)));
             for(int i = 0; i < (Array.getLength(((String []) breweryData))-1); i++) {
                 brewery_data_for_db[i] =  ((String []) breweryData)[i];
             }
@@ -54,7 +53,13 @@ public class MainActivity extends AppCompatActivity {
             String phone = brewery_data_for_db[4];
             String type = brewery_data_for_db[5];
             String website = brewery_data_for_db[6];
-            dataHelper.addBrewery(name, address, type, phone, website);
+            Log.d("DEBUG", "name = " + name);
+            Log.d("DEBUG", "type = " + type);
+            Log.d("DEBUG", "address = " + address);
+            Log.d("DEBUG", "phone = " + phone);
+            Log.d("DEBUG", "website = " + website);
+            if(address.contains("NJ"))
+                dataHelper.addBrewery(name, address, type, phone, website);
         }
 
         // For Testing

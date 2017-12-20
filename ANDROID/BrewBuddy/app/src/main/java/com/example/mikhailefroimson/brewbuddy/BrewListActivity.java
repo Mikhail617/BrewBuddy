@@ -21,14 +21,8 @@ public class BrewListActivity extends AppCompatActivity {
         context = this;
         // Create DatabaseHelper instance
         BrewBuddyDatabaseHelper dataHelper = new BrewBuddyDatabaseHelper(context);
-        // Insert sample data
-        //dataHelper.insertData("Kent","HoReCa");
-        //dataHelper.insertData("FineE","HoReCa");
-        //dataHelper.insertData("MKent","GTrade");
-        //dataHelper.insertData("MeviusLove","MTrade");
-        //dataHelper.insertData("XEMo","HoReCa");
         // Reference to TableLayout
-        TableLayout tableLayout = (TableLayout) findViewById(R.id.tablelayout);
+        TableLayout tableLayout = (TableLayout) findViewById(R.id.brewTableLayout);
         // Add header row
         TableRow rowHeader = new TableRow(context);
         rowHeader.setBackgroundColor(Color.parseColor("#c0c0c0"));
