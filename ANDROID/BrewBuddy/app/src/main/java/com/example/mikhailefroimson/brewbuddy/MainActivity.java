@@ -48,9 +48,9 @@ public class MainActivity extends AppCompatActivity {
                                 "," + ((String[]) breweryData)[4] + "," + ((String[]) breweryData)[5] +
                                 "," + ((String[]) breweryData)[6]);
             //dataHelper.addBrewery(name, address, type, phone, website);*/
-            String name = brewery_data_for_db[0];
-            String address = brewery_data_for_db[1] + " " + brewery_data_for_db[2];
-            String phone = brewery_data_for_db[4];
+            String name = brewery_data_for_db[0].replace("\"", "");
+            String address = brewery_data_for_db[1].replace("\"", "") + " " + brewery_data_for_db[2].replace("\"", "").replace("|", "");
+            String phone = brewery_data_for_db[4].replace("Phone:", "");
             String type = brewery_data_for_db[5];
             String website = brewery_data_for_db[6];
             Log.d("DEBUG", "name = " + name);
