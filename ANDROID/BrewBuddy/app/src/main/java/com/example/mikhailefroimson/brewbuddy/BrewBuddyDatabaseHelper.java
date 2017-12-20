@@ -2,12 +2,15 @@ package com.example.mikhailefroimson.brewbuddy;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 import android.util.Log;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by mikhail.efroimson on 12/18/2017.
@@ -28,22 +31,25 @@ public class BrewBuddyDatabaseHelper extends SQLiteOpenHelper {
     }
 
     private static final String SQL_CREATE_BREWERIES =
-            "CREATE TABLE " + BrewBuddyDatabaseContract.Breweries.TABLE_NAME_BREWERIES + " (" +
+            "CREATE TABLE " + BrewBuddyDatabaseContract.Breweries.TABLE_BREWERIES + " (" +
                     BrewBuddyDatabaseContract.Breweries._ID + " INTEGER PRIMARY KEY," +
-                    BrewBuddyDatabaseContract.Breweries.COLUMN_NAME_NAME + " TEXT," +
-                    BrewBuddyDatabaseContract.Breweries.COLUMN_NAME_TYPE + " TEXT)";
+                    BrewBuddyDatabaseContract.Breweries.COLUMN_NAME + " TEXT," +
+                    BrewBuddyDatabaseContract.Breweries.COLUMN_TYPE + " TEXT," +
+                    BrewBuddyDatabaseContract.Breweries.COLUMN_ADDRESS + " TEXT," +
+                    BrewBuddyDatabaseContract.Breweries.COLUMN_PHONE + " TEXT," +
+                    BrewBuddyDatabaseContract.Breweries.COLUMN_WEBSITE + " TEXT)";
 
     private static final String SQL_CREATE_BREWS =
-            "CREATE TABLE " + BrewBuddyDatabaseContract.Brews.TABLE_NAME_BREWS + " (" +
+            "CREATE TABLE " + BrewBuddyDatabaseContract.Brews.TABLE_BREWS + " (" +
                     BrewBuddyDatabaseContract.Brews._ID + " INTEGER PRIMARY KEY," +
-                    BrewBuddyDatabaseContract.Brews.COLUMN_NAME_NAME + " TEXT," +
-                    BrewBuddyDatabaseContract.Brews.COLUMN_NAME_TYPE + " TEXT)";
+                    BrewBuddyDatabaseContract.Brews.COLUMN_NAME + " TEXT," +
+                    BrewBuddyDatabaseContract.Brews.COLUMN_TYPE + " TEXT)";
 
     private static final String SQL_DELETE_BREWERIES =
-            "DROP TABLE IF EXISTS " + BrewBuddyDatabaseContract.Breweries.TABLE_NAME_BREWERIES;
+            "DROP TABLE IF EXISTS " + BrewBuddyDatabaseContract.Breweries.TABLE_BREWERIES;
 
     private static final String SQL_DELETE_BREWS =
-            "DROP TABLE IF EXISTS " + BrewBuddyDatabaseContract.Brews.TABLE_NAME_BREWS;
+            "DROP TABLE IF EXISTS " + BrewBuddyDatabaseContract.Brews.TABLE_BREWS;
 
     public BrewBuddyDatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -53,6 +59,11 @@ public class BrewBuddyDatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_BREWERIES);
         db.execSQL(SQL_CREATE_BREWS);
+
+        // Debug
+        getTableNames();
+        getColumnNames("Breweries");
+        getColumnNames("Brews");
     }
 
     @Override
@@ -67,32 +78,68 @@ public class BrewBuddyDatabaseHelper extends SQLiteOpenHelper {
 
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
-        values.put(BrewBuddyDatabaseContract.Brews.COLUMN_NAME_NAME, brew_name);
-        values.put(BrewBuddyDatabaseContract.Brews.COLUMN_NAME_TYPE, brew_type);
+        values.put(BrewBuddyDatabaseContract.Brews.COLUMN_NAME, brew_name);
+        values.put(BrewBuddyDatabaseContract.Brews.COLUMN_TYPE, brew_type);
 
         // Insert the new row, returning the primary key value of the new row
-        long newRowId = db.insert(BrewBuddyDatabaseContract.Brews.TABLE_NAME_BREWS, null, values);
+        long newRowId = db.insert(BrewBuddyDatabaseContract.Brews.TABLE_BREWS, null, values);
     }
 
     public void addBrewery(String brewery_name,
                            String brewery_address,
-                           String brewery_type) {
+                           String brewery_type,
+                           String brewery_phone,
+                           String brewery_website) {
         // Gets the data repository in write mode
         SQLiteDatabase db = this.getWritableDatabase();
 
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
-        values.put(BrewBuddyDatabaseContract.Breweries.COLUMN_NAME_NAME, brewery_name);
-        values.put(BrewBuddyDatabaseContract.Breweries.COLUMN_NAME_ADDRESS, brewery_address);
-        values.put(BrewBuddyDatabaseContract.Breweries.COLUMN_NAME_TYPE, brewery_type);
+        values.put(BrewBuddyDatabaseContract.Breweries.COLUMN_NAME, brewery_name);
+        values.put(BrewBuddyDatabaseContract.Breweries.COLUMN_ADDRESS, brewery_address);
+        values.put(BrewBuddyDatabaseContract.Breweries.COLUMN_TYPE, brewery_type);
+        values.put(BrewBuddyDatabaseContract.Breweries.COLUMN_PHONE, brewery_phone);
+        values.put(BrewBuddyDatabaseContract.Breweries.COLUMN_WEBSITE, brewery_website);
 
         // Insert the new row, returning the primary key value of the new row
-        long newRowId = db.insert(BrewBuddyDatabaseContract.Breweries.TABLE_NAME_BREWERIES, null, values);
+        long newRowId = db.insert(BrewBuddyDatabaseContract.Breweries.TABLE_BREWERIES, null, values);
     }
+
+    public void resetDatabase() {
+        // Gets the data repository in write mode
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DROP TABLE IF EXISTS " + BrewBuddyDatabaseContract.Brews.TABLE_BREWS);
+        db.execSQL("DROP TABLE IF EXISTS " + BrewBuddyDatabaseContract.Breweries.TABLE_BREWERIES);
+        this.onCreate(db);
+    }
+
+    // Database debug methods
 
     private static boolean doesDatabaseExist(Context context, String dbName) {
         File dbFile = context.getDatabasePath(dbName);
         return dbFile.exists();
+    }
+
+    private void getColumnNames(String table) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor dbCursor = db.query(table, null, null, null, null, null, null);
+        String[] columnNames = dbCursor.getColumnNames();
+        Log.d("DATABSE DEBUG", Arrays.toString(columnNames));
+    }
+
+    private void getTableNames() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ArrayList<String> arrTblNames = new ArrayList<String>();
+        Cursor c = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
+
+        if (c.moveToFirst()) {
+            while ( !c.isAfterLast() ) {
+                arrTblNames.add( c.getString( c.getColumnIndex("name")) );
+                c.moveToNext();
+            }
+        }
+        Log.d("DATABSE DEBUG", Arrays.toString(arrTblNames.toArray()));
+
     }
 
 }

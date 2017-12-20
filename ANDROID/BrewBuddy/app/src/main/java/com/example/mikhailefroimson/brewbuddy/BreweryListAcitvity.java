@@ -1,9 +1,18 @@
 package com.example.mikhailefroimson.brewbuddy;
 
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.widget.ListView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 
 import java.io.InputStream;
 import java.util.List;
@@ -13,26 +22,84 @@ import java.util.List;
  */
 
 public class BreweryListAcitvity extends AppCompatActivity {
-    private ListView listView;
-    private ItemArrayAdapter itemArrayAdapter;
-
+    private Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_brewery_list);
-        listView = (ListView) findViewById(R.id.listView);
-        itemArrayAdapter = new ItemArrayAdapter(getApplicationContext(), R.layout.item_layout);
+        setContentView(R.layout.activity_view_brews);
+        context = this;
+        // Create DatabaseHelper instance
+        BrewBuddyDatabaseHelper dataHelper = new BrewBuddyDatabaseHelper(context);
+        // Reference to TableLayout
+        TableLayout tableLayout = (TableLayout) findViewById(R.id.tablelayout);
+        // Add header row
+        TableRow rowHeader = new TableRow(context);
+        rowHeader.setBackgroundColor(Color.parseColor("#c0c0c0"));
+        rowHeader.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
+                TableLayout.LayoutParams.WRAP_CONTENT));
+        String[] headerText = {"NAME", "TYPE", "ADDRESS", "PHONE", "WEBSITE"};
+        for (String c : headerText) {
+            TextView tv = new TextView(this);
+            tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
+                    TableRow.LayoutParams.WRAP_CONTENT));
+            tv.setGravity(Gravity.CENTER);
+            tv.setTextSize(18);
+            tv.setPadding(5, 5, 5, 5);
+            tv.setText(c);
+            rowHeader.addView(tv);
+        }
+        tableLayout.addView(rowHeader);
 
-        Parcelable state = listView.onSaveInstanceState();
-        listView.setAdapter(itemArrayAdapter);
-        listView.onRestoreInstanceState(state);
+        // Get data from sqlite database and add them to the table
+        // Open the database for reading
+        SQLiteDatabase db = dataHelper.getReadableDatabase();
+        // Start the transaction.
+        db.beginTransaction();
 
-        InputStream inputStream = getResources().openRawResource(R.raw.breweries);
-        Utils.CSVFile csvFile = new Utils.CSVFile(inputStream);
-        List breweryList = csvFile.read();
+        try {
+            String selectQuery = "SELECT * FROM " + BrewBuddyDatabaseContract.Breweries.TABLE_BREWERIES;
+            Cursor cursor = db.rawQuery(selectQuery, null);
+            if (cursor.getCount() > 0) {
+                while (cursor.moveToNext()) {
+                    // Read columns data
+                    //int outlet_id = cursor.getInt(cursor.getColumnIndex("_ID"));
+                    String brewery_name = cursor.getString(cursor.getColumnIndex("Name"));
+                    String brewery_address = cursor.getString(cursor.getColumnIndex("Address"));
+                    String brewery_phone = cursor.getString(cursor.getColumnIndex("Phone"));
+                    String brewery_website = cursor.getString(cursor.getColumnIndex("Website"));
+                    String brewery_type = cursor.getString(cursor.getColumnIndex("Type"));
 
-        for(Object breweryData:breweryList ) {
-            itemArrayAdapter.add((String[]) breweryData);
+                    // dara rows
+                    TableRow row = new TableRow(context);
+                    row.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
+                            TableLayout.LayoutParams.WRAP_CONTENT));
+                    //String[] colText = {outlet_id + "", outlet_name, outlet_type};
+                    String[] colText = {brewery_name, brewery_type};
+                    for (String text : colText) {
+                        TextView tv = new TextView(this);
+                        tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
+                                TableRow.LayoutParams.WRAP_CONTENT));
+                        tv.setGravity(Gravity.CENTER);
+                        tv.setTextSize(16);
+                        tv.setPadding(5, 5, 5, 5);
+                        tv.setText(text);
+                        row.addView(tv);
+                    }
+                    tableLayout.addView(row);
+
+                }
+
+            }
+            db.setTransactionSuccessful();
+
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+
+        } finally {
+            db.endTransaction();
+            // End the transaction.
+            db.close();
+            // Close database
         }
     }
 }

@@ -34,7 +34,7 @@ public class BrewListActivity extends AppCompatActivity {
         rowHeader.setBackgroundColor(Color.parseColor("#c0c0c0"));
         rowHeader.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
                 TableLayout.LayoutParams.WRAP_CONTENT));
-        String[] headerText = {"ID", "NAME", "TYPE"};
+        String[] headerText = {"NAME", "TYPE"};
         for (String c : headerText) {
             TextView tv = new TextView(this);
             tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
@@ -54,7 +54,7 @@ public class BrewListActivity extends AppCompatActivity {
         db.beginTransaction();
 
         try {
-            String selectQuery = "SELECT * FROM " + BrewBuddyDatabaseContract.Brews.TABLE_NAME_BREWS;
+            String selectQuery = "SELECT * FROM " + BrewBuddyDatabaseContract.Brews.TABLE_BREWS;
             Cursor cursor = db.rawQuery(selectQuery, null);
             if (cursor.getCount() > 0) {
                 while (cursor.moveToNext()) {

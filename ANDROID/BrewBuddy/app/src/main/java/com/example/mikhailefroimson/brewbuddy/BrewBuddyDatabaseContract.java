@@ -9,16 +9,18 @@ public final class BrewBuddyDatabaseContract {
 
     /* Inner class that defines the table contents */
     public static class Breweries implements BaseColumns {
-        public static final String TABLE_NAME_BREWERIES = "Breweries";
-        public static final String COLUMN_NAME_NAME = "Name";
-        public static final String COLUMN_NAME_ADDRESS = "Address";
-        public static final String COLUMN_NAME_TYPE = "Type";
+        public static final String TABLE_BREWERIES = "Breweries";
+        public static final String COLUMN_NAME = "Name";
+        public static final String COLUMN_ADDRESS = "Address";
+        public static final String COLUMN_TYPE = "Type";
+        public static final String COLUMN_PHONE = "Phone";
+        public static final String COLUMN_WEBSITE = "Website";
     }
 
     /* Inner class that defines the table contents */
     public static class Brews implements BaseColumns {
-        public static final String TABLE_NAME_BREWS = "Brews";
-        public static final String COLUMN_NAME_NAME = "Name";
-        public static final String COLUMN_NAME_TYPE = "Type";
+        public static final String TABLE_BREWS = "Brews";
+        public static final String COLUMN_NAME = "Name";
+        public static final String COLUMN_TYPE = "Type";
     }
 }
