@@ -1,7 +1,9 @@
 package com.example.mikhailefroimson.brewbuddy;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
@@ -30,6 +32,7 @@ import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
@@ -39,7 +42,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class BrewBuddyMapActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
+public class BrewBuddyMapActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener, GoogleMap.OnMarkerClickListener {
 
     private static final String TAG = "BrewBuddyMapActivity";
     private GoogleMap mMap;
@@ -86,11 +89,6 @@ public class BrewBuddyMapActivity extends FragmentActivity implements OnMapReady
                 lm.requestLocationUpdates(provider, 20000, 0, (LocationListener) this);
             }
 
-            // Marker test - works!
-            //LatLng address = getLocationFromAddress(this, "22755 Hawthorne Blvd, Torrance, CA 90505-3613");
-            //mMap.addMarker(new MarkerOptions().position(address).title("Zymurgy Brew Works"));
-            //mMap.moveCamera(CameraUpdateFactory.newLatLng(address));
-
             //plot_breweries_from_file();
             plot_breweries_from_db();
 
@@ -102,7 +100,6 @@ public class BrewBuddyMapActivity extends FragmentActivity implements OnMapReady
             mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
                 @Override
                 public void onMyLocationChange(Location location) {
-
                     CameraUpdate center=CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
                     CameraUpdate zoom=CameraUpdateFactory.zoomTo(11);
                     mMap.moveCamera(center);
@@ -111,6 +108,8 @@ public class BrewBuddyMapActivity extends FragmentActivity implements OnMapReady
                 }
             });
 
+            // set listener for brewery marker clicks
+            googleMap.setOnMarkerClickListener(this);
         }
     }
 
@@ -200,7 +199,8 @@ public class BrewBuddyMapActivity extends FragmentActivity implements OnMapReady
                     String brewery_name = cursor.getString(cursor.getColumnIndex("Name"));
                     String brewery_address = cursor.getString(cursor.getColumnIndex("Address"));
                     LatLng address = getLocationFromAddress(this, brewery_address);
-                    mMap.addMarker(new MarkerOptions().position(address).title(brewery_name));
+                    if(address != null)
+                        mMap.addMarker(new MarkerOptions().position(address).title(brewery_name));
                 }
             }
             db.setTransactionSuccessful();
@@ -214,5 +214,22 @@ public class BrewBuddyMapActivity extends FragmentActivity implements OnMapReady
             db.close();
             // Close database
         }
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        String breweryName = marker.getTitle();
+        AlertDialog alertDialog = new AlertDialog.Builder(BrewBuddyMapActivity.this).create(); //Read Update
+        alertDialog.setTitle(breweryName);
+        alertDialog.setMessage("More info coming soon :)");
+
+        alertDialog.setButton("Continue..", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // bring up the menu activity
+            }
+        });
+
+        alertDialog.show();  //<-- See This!
+        return true;
     }
 }

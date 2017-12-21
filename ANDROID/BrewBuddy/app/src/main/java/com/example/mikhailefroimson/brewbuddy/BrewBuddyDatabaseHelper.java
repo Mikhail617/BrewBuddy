@@ -59,11 +59,6 @@ public class BrewBuddyDatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_BREWERIES);
         db.execSQL(SQL_CREATE_BREWS);
-
-        // Debug
-        getTableNames();
-        getColumnNames("Breweries");
-        getColumnNames("Brews");
     }
 
     @Override
