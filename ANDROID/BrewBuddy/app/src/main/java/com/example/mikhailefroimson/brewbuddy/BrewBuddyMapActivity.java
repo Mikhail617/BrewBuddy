@@ -40,6 +40,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class BrewBuddyMapActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener, GoogleMap.OnMarkerClickListener {
@@ -57,7 +58,6 @@ public class BrewBuddyMapActivity extends FragmentActivity implements OnMapReady
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
-
 
     /**
      * Manipulates the map once available.
@@ -204,7 +204,6 @@ public class BrewBuddyMapActivity extends FragmentActivity implements OnMapReady
                 }
             }
             db.setTransactionSuccessful();
-
         } catch (SQLiteException e) {
             e.printStackTrace();
 
@@ -221,15 +220,52 @@ public class BrewBuddyMapActivity extends FragmentActivity implements OnMapReady
         String breweryName = marker.getTitle();
         AlertDialog alertDialog = new AlertDialog.Builder(BrewBuddyMapActivity.this).create(); //Read Update
         alertDialog.setTitle(breweryName);
-        alertDialog.setMessage("More info coming soon :)");
+        HashMap brewery = getBreweryInfo(breweryName);
+        alertDialog.setMessage( ((String) brewery.get("name")).trim() + " \n" +
+                                ((String) brewery.get("type")).trim() + " \n" +
+                                ((String) brewery.get("address")).trim() + " \n" +
+                                ((String) brewery.get("phone")).trim() + " \n" +
+                                ((String) brewery.get("website")).trim());
 
         alertDialog.setButton("Continue..", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 // bring up the menu activity
             }
         });
-
         alertDialog.show();  //<-- See This!
         return true;
+    }
+
+    // This should be somewhere else...
+    public HashMap getBreweryInfo(String breweryName) {
+        HashMap breweryData = new HashMap();
+        BrewBuddyDatabaseHelper dataHelper = new BrewBuddyDatabaseHelper(this);
+        SQLiteDatabase db = dataHelper.getReadableDatabase();
+        db.beginTransaction();
+        try {
+            String selectQuery = "SELECT Name, Type, Address, Phone, Website FROM " + BrewBuddyDatabaseContract.Breweries.TABLE_BREWERIES + " WHERE Name = '" + breweryName + "'";
+            Cursor cursor = db.rawQuery(selectQuery, null);
+            if (cursor.getCount() > 0) {
+                while (cursor.moveToNext()) {
+                    String brewery_name = cursor.getString(cursor.getColumnIndex("Name"));
+                    String brewery_type = cursor.getString(cursor.getColumnIndex("Type"));
+                    String brewery_address = cursor.getString(cursor.getColumnIndex("Address"));
+                    String brewery_phone = cursor.getString(cursor.getColumnIndex("Phone"));
+                    String brewery_website = cursor.getString(cursor.getColumnIndex("Website"));
+                    breweryData.put("name", brewery_name);
+                    breweryData.put("address", brewery_address);
+                    breweryData.put("type", brewery_type);
+                    breweryData.put("phone", brewery_phone);
+                    breweryData.put("website", brewery_website);
+                }
+            }
+            db.setTransactionSuccessful();
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+        } finally {
+            db.endTransaction();
+            db.close();
+        }
+        return breweryData;
     }
 }
