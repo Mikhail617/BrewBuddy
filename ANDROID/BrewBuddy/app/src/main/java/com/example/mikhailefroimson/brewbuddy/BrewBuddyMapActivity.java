@@ -19,6 +19,10 @@ import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.Gravity;
 import android.widget.TableLayout;
@@ -217,16 +221,21 @@ public class BrewBuddyMapActivity extends FragmentActivity implements OnMapReady
 
     @Override
     public boolean onMarkerClick(Marker marker) {
+        final TextView message = new TextView(this);
         String breweryName = marker.getTitle();
         AlertDialog alertDialog = new AlertDialog.Builder(BrewBuddyMapActivity.this).create(); //Read Update
         alertDialog.setTitle(breweryName);
         HashMap brewery = getBreweryInfo(breweryName);
-        alertDialog.setMessage( ((String) brewery.get("name")).trim() + " \n" +
-                                ((String) brewery.get("type")).trim() + " \n" +
-                                ((String) brewery.get("address")).trim() + " \n" +
-                                ((String) brewery.get("phone")).trim() + " \n" +
-                                ((String) brewery.get("website")).trim());
-
+        String website = ((String) brewery.get("website")).trim();
+        String msg = ((String) brewery.get("name")).trim() + " \n" +
+                ((String) brewery.get("type")).trim() + " \n" +
+                ((String) brewery.get("address")).trim() + " \n" +
+                ((String) brewery.get("phone")).trim() + " \n" + website;
+        final SpannableString s = new SpannableString(msg);
+        Linkify.addLinks(s, Linkify.WEB_URLS);
+        message.setText(s);
+        message.setMovementMethod(LinkMovementMethod.getInstance());
+        alertDialog.setView(message);
         alertDialog.setButton("Continue..", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 // bring up the menu activity
