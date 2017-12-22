@@ -45,6 +45,7 @@ public class BrewBuddyDatabaseHelper extends SQLiteOpenHelper {
                     BrewBuddyDatabaseContract.Brews.COLUMN_NAME + " TEXT," +
                     BrewBuddyDatabaseContract.Brews.COLUMN_TYPE + " TEXT," +
                     BrewBuddyDatabaseContract.Brews.COLUMN_ABV + " TEXT," +
+                    BrewBuddyDatabaseContract.Brews.COLUMN_DESCRIPTION + " TEXT," +
                     BrewBuddyDatabaseContract.Brews.COLUMN_BREWERY + " TEXT," +
                     BrewBuddyDatabaseContract.Brews.COLUMN_PRICE + " TEXT," +
                     BrewBuddyDatabaseContract.Brews.COLUMN_AVAILABILITY + " TEXT)";
@@ -71,7 +72,13 @@ public class BrewBuddyDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_BREWS);
     }
 
-    public void addBrew(String brew_name, String brew_type) {
+    public void addBrew(String brew_name,
+                        String brew_type,
+                        String brew_abv,
+                        String brew_description,
+                        String brew_brewery,
+                        String brew_price,
+                        String brew_availability) {
         // Gets the data repository in write mode
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -79,10 +86,11 @@ public class BrewBuddyDatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(BrewBuddyDatabaseContract.Brews.COLUMN_NAME, brew_name);
         values.put(BrewBuddyDatabaseContract.Brews.COLUMN_TYPE, brew_type);
-        values.put(BrewBuddyDatabaseContract.Brews.COLUMN_ABV, brew_type);
-        values.put(BrewBuddyDatabaseContract.Brews.COLUMN_BREWERY, brew_type);
-        values.put(BrewBuddyDatabaseContract.Brews.COLUMN_PRICE, brew_type);
-        values.put(BrewBuddyDatabaseContract.Brews.COLUMN_AVAILABILITY, brew_type);
+        values.put(BrewBuddyDatabaseContract.Brews.COLUMN_ABV, brew_abv);
+        values.put(BrewBuddyDatabaseContract.Brews.COLUMN_DESCRIPTION, brew_description);
+        values.put(BrewBuddyDatabaseContract.Brews.COLUMN_BREWERY, brew_brewery);
+        values.put(BrewBuddyDatabaseContract.Brews.COLUMN_PRICE, brew_price);
+        values.put(BrewBuddyDatabaseContract.Brews.COLUMN_AVAILABILITY, brew_availability);
 
         // Insert the new row, returning the primary key value of the new row
         long newRowId = db.insert(BrewBuddyDatabaseContract.Brews.TABLE_BREWS, null, values);

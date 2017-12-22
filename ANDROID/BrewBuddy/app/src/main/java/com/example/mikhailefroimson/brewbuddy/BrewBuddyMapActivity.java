@@ -188,6 +188,7 @@ public class BrewBuddyMapActivity extends FragmentActivity implements OnMapReady
         }
     }
 
+
     public void plot_breweries_from_db() {
         // Create DatabaseHelper instance
         BrewBuddyDatabaseHelper dataHelper = new BrewBuddyDatabaseHelper(this);

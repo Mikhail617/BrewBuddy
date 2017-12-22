@@ -23,6 +23,7 @@ public final class BrewBuddyDatabaseContract {
         public static final String COLUMN_NAME = "Name";
         public static final String COLUMN_TYPE = "Type";
         public static final String COLUMN_ABV = "ABV";
+        public static final String COLUMN_DESCRIPTION = "Description";
         public static final String COLUMN_BREWERY = "Brewery";
         public static final String COLUMN_PRICE = "Price";
         public static final String COLUMN_AVAILABILITY = "Availability";

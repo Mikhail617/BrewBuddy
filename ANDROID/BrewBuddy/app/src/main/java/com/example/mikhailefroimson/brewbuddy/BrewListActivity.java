@@ -28,7 +28,7 @@ public class BrewListActivity extends AppCompatActivity {
         rowHeader.setBackgroundColor(Color.parseColor("#c0c0c0"));
         rowHeader.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
                 TableLayout.LayoutParams.WRAP_CONTENT));
-        String[] headerText = {"NAME", "TYPE"};
+        String[] headerText = {"NAME", "TYPE", "ABV", "DESC", "BREWERY", "PRICE", "AVAILABILITY"};
         for (String c : headerText) {
             TextView tv = new TextView(this);
             tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
@@ -54,15 +54,19 @@ public class BrewListActivity extends AppCompatActivity {
                 while (cursor.moveToNext()) {
                     // Read columns data
                     //int outlet_id = cursor.getInt(cursor.getColumnIndex("_ID"));
-                    String outlet_name = cursor.getString(cursor.getColumnIndex("Name"));
-                    String outlet_type = cursor.getString(cursor.getColumnIndex("Type"));
+                    String brew_name = cursor.getString(cursor.getColumnIndex("Name"));
+                    String brew_type = cursor.getString(cursor.getColumnIndex("Type"));
+                    String brew_abv = cursor.getString(cursor.getColumnIndex("ABV"));
+                    String brew_description = cursor.getString(cursor.getColumnIndex("Description"));
+                    String brew_brewery = cursor.getString(cursor.getColumnIndex("Brewery"));
+                    String brew_price = cursor.getString(cursor.getColumnIndex("Price"));
+                    String brew_availability = cursor.getString(cursor.getColumnIndex("Availability"));
 
                     // dara rows
                     TableRow row = new TableRow(context);
                     row.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
                             TableLayout.LayoutParams.WRAP_CONTENT));
-                    //String[] colText = {outlet_id + "", outlet_name, outlet_type};
-                    String[] colText = {outlet_name, outlet_type};
+                    String[] colText = {brew_name, brew_type, brew_abv, brew_description, brew_brewery, brew_price, brew_availability};
                     for (String text : colText) {
                         TextView tv = new TextView(this);
                         tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
@@ -74,9 +78,7 @@ public class BrewListActivity extends AppCompatActivity {
                         row.addView(tv);
                     }
                     tableLayout.addView(row);
-
                 }
-
             }
             db.setTransactionSuccessful();
 
@@ -85,9 +87,7 @@ public class BrewListActivity extends AppCompatActivity {
 
         } finally {
             db.endTransaction();
-            // End the transaction.
             db.close();
-            // Close database
         }
     }
 }
