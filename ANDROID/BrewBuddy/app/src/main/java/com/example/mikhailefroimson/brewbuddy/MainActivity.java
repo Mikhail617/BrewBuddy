@@ -1,5 +1,6 @@
 package com.example.mikhailefroimson.brewbuddy;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -63,14 +64,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void mapButtonClickFunction(View v)
-    {
+    public void mapButtonClickFunction(View v) {
         Intent intent = new Intent(this, BrewBuddyMapActivity.class);
         startActivity(intent);
     }
 
-    public void breweryButtonClickFunction(View v)
-    {
+    public void breweryButtonClickFunction(View v) {
         Intent intent = new Intent(this, BreweryListAcitvity.class);
         startActivity(intent);
     }
@@ -83,5 +82,10 @@ public class MainActivity extends AppCompatActivity {
     public void addABrewButtonClickFunction(View v) {
         Intent intent = new Intent(this, AddABrewActivity.class);
         startActivity(intent);
+    }
+
+    public void exitButtonClickFunction(View v) {
+        finish();
+        System.exit(0);
     }
 }

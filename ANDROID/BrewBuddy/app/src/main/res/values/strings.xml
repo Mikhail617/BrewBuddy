@@ -6,7 +6,11 @@
     <string name="BrewInfo">__________ New Brew Info: __________</string>
     <string name="BrewName">Name</string>
     <string name="BrewType">Type</string>
-    <string name="BreweryName">Address</string>
+    <string name="ABV">ABV</string>
+    <string name="Description">Description</string>
+    <string name="Price">Price</string>
+    <string name="Availability">Availability</string>
+    <string name="BreweryName">Brewery Name</string>
     <string name="BreweryAddress">Address</string>
     <string name="BrewLocationUseCurrent">Use your current location</string>
     <string name="SubmitBrewButton">Add Brew</string>

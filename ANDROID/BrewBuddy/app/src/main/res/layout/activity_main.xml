@@ -23,42 +23,73 @@
                 android:id="@+id/btnButton2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
                 android:text="Breweries"
                 android:onClick="breweryButtonClickFunction"/>
 
             <Button
-                android:id="@+id/btnButton3"
+                android:text="@string/label_map_button"
+                android:id="@+id/Button"
+                android:layout_toRightOf="@+id/btnButton2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:text="Exit"/>
+                android:onClick="mapButtonClickFunction"/>
 
             <Button
                 android:id="@+id/btnButton4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_below="@+id/btnButton2"
                 android:text="Brews"
                 android:onClick="brewButtonClickFunction"/>
 
-            <!--<Button
+            <Button
+                android:id="@+id/btnButton6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/Button"
+                android:layout_toRightOf="@+id/btnButton2"
+                android:text="Questionnaire"/>
+
+            <Button
+                android:id="@+id/btnButton7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btnButton6"
+                android:layout_toRightOf="@+id/btnButton5"
+                android:text="Favorites"/>
+
+            <Button
                 android:id="@+id/btnButton5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_below="@+id/btnButton4"
                 android:text="Add a Brew"
-                android:onClick="addABrewButtonClickFunction"/>-->
+                android:onClick="addABrewButtonClickFunction"/>
+
+            <Button
+                android:id="@+id/btnButton8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/Button"
+                android:text="Sponsored Links"/>
+
+            <Button
+                android:id="@+id/btnButton9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/Button"
+                android:layout_below="@+id/btnButton8"
+                android:text="About"/>
+
+            <Button
+                android:id="@+id/btnButton3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/Button"
+                android:layout_below="@+id/btnButton9"
+                android:text="Exit"
+                android:onClick="exitButtonClickFunction"/>
 
         </RelativeLayout>
-        <Button
-            android:text="@string/label_map_button"
-            android:id="@+id/Button"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="mapButtonClickFunction">
-        </Button>
     </RelativeLayout>
-
 </android.support.constraint.ConstraintLayout>

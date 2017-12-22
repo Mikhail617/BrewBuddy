@@ -43,7 +43,11 @@ public class BrewBuddyDatabaseHelper extends SQLiteOpenHelper {
             "CREATE TABLE " + BrewBuddyDatabaseContract.Brews.TABLE_BREWS + " (" +
                     BrewBuddyDatabaseContract.Brews._ID + " INTEGER PRIMARY KEY," +
                     BrewBuddyDatabaseContract.Brews.COLUMN_NAME + " TEXT," +
-                    BrewBuddyDatabaseContract.Brews.COLUMN_TYPE + " TEXT)";
+                    BrewBuddyDatabaseContract.Brews.COLUMN_TYPE + " TEXT," +
+                    BrewBuddyDatabaseContract.Brews.COLUMN_ABV + " TEXT," +
+                    BrewBuddyDatabaseContract.Brews.COLUMN_BREWERY + " TEXT," +
+                    BrewBuddyDatabaseContract.Brews.COLUMN_PRICE + " TEXT," +
+                    BrewBuddyDatabaseContract.Brews.COLUMN_AVAILABILITY + " TEXT)";
 
     private static final String SQL_DELETE_BREWERIES =
             "DROP TABLE IF EXISTS " + BrewBuddyDatabaseContract.Breweries.TABLE_BREWERIES;
@@ -75,6 +79,10 @@ public class BrewBuddyDatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(BrewBuddyDatabaseContract.Brews.COLUMN_NAME, brew_name);
         values.put(BrewBuddyDatabaseContract.Brews.COLUMN_TYPE, brew_type);
+        values.put(BrewBuddyDatabaseContract.Brews.COLUMN_ABV, brew_type);
+        values.put(BrewBuddyDatabaseContract.Brews.COLUMN_BREWERY, brew_type);
+        values.put(BrewBuddyDatabaseContract.Brews.COLUMN_PRICE, brew_type);
+        values.put(BrewBuddyDatabaseContract.Brews.COLUMN_AVAILABILITY, brew_type);
 
         // Insert the new row, returning the primary key value of the new row
         long newRowId = db.insert(BrewBuddyDatabaseContract.Brews.TABLE_BREWS, null, values);

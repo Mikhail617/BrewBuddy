@@ -22,7 +22,7 @@
             android:id="@+id/EditTextName"
             android:layout_height="wrap_content"
             android:hint="@string/BrewName"
-            android:inputType="textPersonName"
+            android:inputType="text"
             android:layout_width="fill_parent">
         </EditText>
 
@@ -30,7 +30,47 @@
             android:id="@+id/EditTextType"
             android:layout_height="wrap_content"
             android:hint="@string/BrewType"
-            android:inputType="textPersonName"
+            android:inputType="text"
+            android:layout_width="fill_parent">
+        </EditText>
+
+        <EditText
+            android:id="@+id/EditTextABV"
+            android:layout_height="wrap_content"
+            android:hint="@string/ABV"
+            android:inputType="text"
+            android:layout_width="fill_parent">
+        </EditText>
+
+        <EditText
+            android:id="@+id/EditTextDescription"
+            android:layout_height="wrap_content"
+            android:hint="@string/Description"
+            android:inputType="text"
+            android:layout_width="fill_parent">
+        </EditText>
+
+        <EditText
+            android:id="@+id/EditTextBrewery"
+            android:layout_height="wrap_content"
+            android:hint="@string/BreweryName"
+            android:inputType="text"
+            android:layout_width="fill_parent">
+        </EditText>
+
+        <EditText
+            android:id="@+id/EditTextPrice"
+            android:layout_height="wrap_content"
+            android:hint="@string/Price"
+            android:inputType="text"
+            android:layout_width="fill_parent">
+        </EditText>
+
+        <EditText
+            android:id="@+id/EditTextAvailability"
+            android:layout_height="wrap_content"
+            android:hint="@string/Availability"
+            android:inputType="text"
             android:layout_width="fill_parent">
         </EditText>
 
