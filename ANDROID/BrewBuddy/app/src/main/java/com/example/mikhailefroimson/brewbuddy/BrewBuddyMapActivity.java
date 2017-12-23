@@ -16,6 +16,10 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -45,13 +49,19 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.RunnableFuture;
 
 public class BrewBuddyMapActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener, GoogleMap.OnMarkerClickListener {
 
     private static final String TAG = "BrewBuddyMapActivity";
     private GoogleMap mMap;
-    private Context context;
+    private static Context context;
+    Handler mHandler;
+    //private BreweryPlacemarkManager sBreweryPlacemarkManager;
+    protected static Queue breweryQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +85,7 @@ public class BrewBuddyMapActivity extends FragmentActivity implements OnMapReady
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        context = this;
 
         if (ActivityCompat.checkSelfPermission(BrewBuddyMapActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(BrewBuddyMapActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(BrewBuddyMapActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
@@ -93,24 +104,44 @@ public class BrewBuddyMapActivity extends FragmentActivity implements OnMapReady
                 lm.requestLocationUpdates(provider, 20000, 0, (LocationListener) this);
             }
 
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    get_breweries_from_db();
+                }
+            });
+
+            mHandler = new Handler(Looper.getMainLooper());
+            mHandler.post(new Runnable (){
+                @Override
+                public void run() {
+                    if(!breweryQueue.isEmpty()) {
+                        Brewery brewery = (Brewery) breweryQueue.remove();
+                        LatLng brewery_location = getLocationFromAddress(context, brewery.getAddress());
+                        if(brewery_location != null)
+                            mMap.addMarker(new MarkerOptions().position(brewery_location).title(brewery.getName()));
+                        mHandler.postDelayed(this, 10);
+                    }
+                }
+            });
             //plot_breweries_from_file();
-            plot_breweries_from_db();
+            //plot_breweries_from_db();
 
             if (myLocation != null) {
                 LatLng userLocation = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 14), 1500, null);
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 10), 1500, null);
             }
 
-            mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
+            /*mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
                 @Override
                 public void onMyLocationChange(Location location) {
                     CameraUpdate center=CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
-                    CameraUpdate zoom=CameraUpdateFactory.zoomTo(11);
+                    CameraUpdate zoom=CameraUpdateFactory.zoomTo(10);
                     mMap.moveCamera(center);
                     mMap.animateCamera(zoom);
 
                 }
-            });
+            });*/
 
             // set listener for brewery marker clicks
             googleMap.setOnMarkerClickListener(this);
@@ -124,7 +155,7 @@ public class BrewBuddyMapActivity extends FragmentActivity implements OnMapReady
                 location.getLongitude(), location.getLatitude()
         );
         LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 14), 1500, null);
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 10), 1500, null);
     }
 
     @Override
@@ -142,7 +173,7 @@ public class BrewBuddyMapActivity extends FragmentActivity implements OnMapReady
 
     }
 
-    public LatLng getLocationFromAddress(Context context, String strAddress)
+    public static LatLng getLocationFromAddress(Context context, String strAddress)
     {
         Geocoder coder= new Geocoder(context);
         List<Address> address;
@@ -189,23 +220,27 @@ public class BrewBuddyMapActivity extends FragmentActivity implements OnMapReady
     }
 
 
-    public void plot_breweries_from_db() {
+    public void get_breweries_from_db() {
         // Create DatabaseHelper instance
         BrewBuddyDatabaseHelper dataHelper = new BrewBuddyDatabaseHelper(this);
         // Open the database for reading
         SQLiteDatabase db = dataHelper.getReadableDatabase();
         // Start the transaction.
         db.beginTransaction();
+        // Create a new brewery Queue
+        breweryQueue = new LinkedList();
         try {
             String selectQuery = "SELECT * FROM " + BrewBuddyDatabaseContract.Breweries.TABLE_BREWERIES;
             Cursor cursor = db.rawQuery(selectQuery, null);
             if (cursor.getCount() > 0) {
                 while (cursor.moveToNext()) {
                     String brewery_name = cursor.getString(cursor.getColumnIndex("Name"));
+                    String brewery_type = cursor.getString(cursor.getColumnIndex("Type"));
                     String brewery_address = cursor.getString(cursor.getColumnIndex("Address"));
-                    LatLng address = getLocationFromAddress(this, brewery_address);
-                    if(address != null)
-                        mMap.addMarker(new MarkerOptions().position(address).title(brewery_name));
+                    String brewery_phone = cursor.getString(cursor.getColumnIndex("Phone"));
+                    String brewery_website = cursor.getString(cursor.getColumnIndex("Website"));
+                    Brewery brewery = new Brewery(brewery_name, brewery_type,  brewery_address, brewery_phone, brewery_website);
+                    breweryQueue.add(brewery);
                 }
             }
             db.setTransactionSuccessful();
@@ -214,9 +249,7 @@ public class BrewBuddyMapActivity extends FragmentActivity implements OnMapReady
 
         } finally {
             db.endTransaction();
-            // End the transaction.
             db.close();
-            // Close database
         }
     }
 

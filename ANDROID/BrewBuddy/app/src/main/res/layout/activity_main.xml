@@ -7,6 +7,14 @@
     tools:context="com.example.mikhailefroimson.brewbuddy.MainActivity"
     android:background="@drawable/brews_01">
 
+    <TextView
+        android:id="@+id/TextViewTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ByTeamDigby"
+        android:textSize="10pt">
+    </TextView>
+
     <RelativeLayout
         android:id="@+id/InnerRelativeLayout"
         android:layout_width="wrap_content"

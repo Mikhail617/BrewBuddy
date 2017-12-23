@@ -14,4 +14,5 @@
     <string name="BreweryAddress">Address</string>
     <string name="BrewLocationUseCurrent">Use your current location</string>
     <string name="SubmitBrewButton">Add Brew</string>
+    <string name="ByTeamDigby">By: Team Digby Apps</string>
 </resources>

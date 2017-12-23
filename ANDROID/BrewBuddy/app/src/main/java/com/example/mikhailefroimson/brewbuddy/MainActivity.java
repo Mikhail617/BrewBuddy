@@ -45,15 +45,6 @@ public class MainActivity extends AppCompatActivity {
             if (Array.getLength((String []) breweryData) >= 7)
                 //Log.d("DEBUG", ((String []) breweryData)[6]);
                 brewery_data_for_db[6] = ((String []) breweryData)[6];
-            /*String name = ((String []) breweryData)[0];
-            String address = ((String []) breweryData)[1] + " " + ((String []) breweryData)[2];
-            String phone = ((String []) breweryData)[4];
-            String type = ((String []) breweryData)[5];
-            String website = ((String []) breweryData)[6];
-            Log.d("DEBUG", "" + ((String[]) breweryData)[0] + ", " + ((String[]) breweryData)[1] +
-                              "," + ((String[]) breweryData)[2] + "," + ((String[]) breweryData)[3] +
-                                "," + ((String[]) breweryData)[4] + "," + ((String[]) breweryData)[5] +
-                                "," + ((String[]) breweryData)[6]);*/
             String name = brewery_data_for_db[0].replace("\"", "");
             String address = brewery_data_for_db[1].replace("\"", "") + " " + brewery_data_for_db[2].replace("\"", "").replace("|", "");
             String phone = brewery_data_for_db[4].replace("Phone:", "");
@@ -61,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
             String website = brewery_data_for_db[6];
             if(address.contains("NJ"))
                 dataHelper.addBrewery(name, address, type, phone, website);
+            // big data test
+            //dataHelper.addBrewery(name, address, type, phone, website);
         }
     }
 
