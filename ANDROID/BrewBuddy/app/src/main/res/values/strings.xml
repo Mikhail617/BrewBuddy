@@ -15,4 +15,11 @@
     <string name="BrewLocationUseCurrent">Use your current location</string>
     <string name="SubmitBrewButton">Add Brew</string>
     <string name="ByTeamDigby">By: Team Digby Apps</string>
+    <string name="D1title">Questionnaire</string>
+    <string name="Q1title">Please select the best answer from the choices provided...</string>
+    <string name="Q1Subtitle">Question 1:</string>
+    <string name="Q1">Are you drinking socially OR ARE YOU LOOKING TO GET DRUNK?!?!?!?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="next">Next</string>
 </resources>

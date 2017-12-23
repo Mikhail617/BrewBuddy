@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
             String phone = brewery_data_for_db[4].replace("Phone:", "");
             String type = brewery_data_for_db[5].replace("Type:", "");
             String website = brewery_data_for_db[6];
-            if(address.contains("NJ"))
+            if(address.contains("NJ") || address.contains("NY") || address.contains("CT") || address.contains("MA"))
                 dataHelper.addBrewery(name, address, type, phone, website);
             // big data test
             //dataHelper.addBrewery(name, address, type, phone, website);
@@ -74,6 +74,26 @@ public class MainActivity extends AppCompatActivity {
 
     public void addABrewButtonClickFunction(View v) {
         Intent intent = new Intent(this, AddABrewActivity.class);
+        startActivity(intent);
+    }
+
+    public void questionaireButtonClickFunction(View v) {
+        Intent intent = new Intent(this, QuestionaireActivity.class);
+        startActivity(intent);
+    }
+
+    public void favoritesButtonClickFunction(View v) {
+        Intent intent = new Intent(this, FavoritesActivity.class);
+        startActivity(intent);
+    }
+
+    public void sponsoredLinkssButtonClickFunction(View v) {
+        Intent intent = new Intent(this, SponsoredLinksActivity.class);
+        startActivity(intent);
+    }
+
+    public void aboutButtonClickFunction(View v) {
+        Intent intent = new Intent(this, AboutScreenActivity.class);
         startActivity(intent);
     }
 

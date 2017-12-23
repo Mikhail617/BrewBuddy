@@ -56,7 +56,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/Button"
                 android:layout_toRightOf="@+id/btnButton2"
-                android:text="Questionnaire"/>
+                android:text="Questionnaire"
+                android:onClick="questionaireButtonClickFunction"/>
 
             <Button
                 android:id="@+id/btnButton7"
@@ -64,7 +65,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/btnButton6"
                 android:layout_toRightOf="@+id/btnButton5"
-                android:text="Favorites"/>
+                android:text="Favorites"
+                android:onClick="favoritesButtonClickFunction"/>
 
             <Button
                 android:id="@+id/btnButton5"
@@ -79,7 +81,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/Button"
-                android:text="Sponsored Links"/>
+                android:text="Sponsored Links"
+                android:onClick="sponsoredLinkssButtonClickFunction"/>
 
             <Button
                 android:id="@+id/btnButton9"
@@ -87,7 +90,8 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/Button"
                 android:layout_below="@+id/btnButton8"
-                android:text="About"/>
+                android:text="About"
+                android:onClick="aboutButtonClickFunction"/>
 
             <Button
                 android:id="@+id/btnButton3"

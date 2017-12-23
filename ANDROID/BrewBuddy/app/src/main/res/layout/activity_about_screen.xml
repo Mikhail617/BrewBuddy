@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.mikhailefroimson.brewbuddy.AboutScreenActivity">
+
+    <TextView
+        android:id="@+id/TextViewTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="About BrewBuddy by Team Digby Apps:"
+        android:textSize="10pt">
+    </TextView>
+
+    <TextView
+        android:id="@+id/TextViewCopyright"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TextViewTitle"
+        android:text="Copyright 2017 Saariga Uma and Mikhail Efroimson"
+        android:textSize="10pt">
+    </TextView>
+
+    <TextView
+        android:id="@+id/TextViewVersion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TextViewCopyright"
+        android:text="Version: Pre-release 1.0.0"
+        android:textSize="10pt">
+    </TextView>
+
+    <TextView
+        android:id="@+id/TextViewContact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TextViewVersion"
+        android:text="For general questions and technical support contact:"
+        android:textSize="10pt">
+    </TextView>
+
+    <TextView
+        android:id="@+id/TextViewMikhail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TextViewContact"
+        android:text="Mikhail Efroimson"
+        android:textSize="10pt">
+    </TextView>
+
+    <TextView
+        android:id="@+id/TextViewEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TextViewMikhail"
+        android:text="mefroimson@gmail.com"
+        android:textSize="10pt">
+    </TextView>
+
+    <TextView
+        android:id="@+id/TextViewPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TextViewEmail"
+        android:text="(617)719-4636"
+        android:textSize="10pt">
+    </TextView>
+
+</RelativeLayout>

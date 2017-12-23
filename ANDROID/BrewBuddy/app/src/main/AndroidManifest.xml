@@ -47,6 +47,10 @@
         <activity
             android:name=".BrewListActivity"
             android:label="Brews" />
+        <activity android:name=".AboutScreenActivity" />
+        <activity android:name=".QuestionaireActivity" />
+        <activity android:name=".SponsoredLinksActivity" />
+        <activity android:name=".FavoritesActivity"></activity>
     </application>
 
 </manifest>
