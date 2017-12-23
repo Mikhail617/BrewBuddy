@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.mikhailefroimson.brewbuddy.QuestionaireActivity">
+    android:layout_width="match_parent" android:layout_height="match_parent">
 
     <!-- title text -->
     <TextView
@@ -24,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/txtTitle"
         android:layout_centerHorizontal="true"
-        android:text="@string/Q1Subtitle"
+        android:text="@string/Q2Subtitle"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <!-- question 1 text -->
@@ -35,7 +31,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/txtSubTitle"
         android:layout_marginTop="38dp"
-        android:text="@string/Q1"
+        android:text="@string/Q2"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <!-- radio group to allow for only one radio button selection -->
@@ -45,21 +41,21 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/txtQ1" >
 
-        <!-- 1st answer radio button-->
-        <RadioButton
-            android:id="@+id/radioButtonYes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
-            android:checked="false"
-            android:text="@string/yes" />
+    <!-- 1st answer radio button-->
+    <RadioButton
+        android:id="@+id/radioButtonLighter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:checked="false"
+        android:text="@string/lighter" />
 
-        <!-- 2nd answer radio button-->
-        <RadioButton
-            android:id="@+id/radioA2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/no" />
+    <!-- 2nd answer radio button-->
+    <RadioButton
+        android:id="@+id/radioButtonDarker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/darker" />
 
     </RadioGroup>
 
@@ -71,6 +67,6 @@
         android:layout_alignParentBottom="true"
         android:layout_toRightOf="@+id/txtTitle"
         android:text="@string/next"
-        android:onClick="nextButtonClickFunction"/>
+        android:onClick="nextButtonClickFunction2"/>
 
 </RelativeLayout>

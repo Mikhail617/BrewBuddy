@@ -19,7 +19,13 @@
     <string name="Q1title">Please select the best answer from the choices provided...</string>
     <string name="Q1Subtitle">Question 1:</string>
     <string name="Q1">Are you drinking socially OR ARE YOU LOOKING TO GET DRUNK?!?!?!?</string>
+    <string name="Q2Subtitle">Question 2:</string>
+    <string name="Q2">Are you looking looking for lighter or darker beer styles?</string>
+    <string name="Q3Subtitle">Question 3:</string>
+    <string name="Q3">Are you looking to pair your beer with food or desert?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="lighter">Lighter</string>
+    <string name="darker">Darker</string>
     <string name="next">Next</string>
 </resources>
