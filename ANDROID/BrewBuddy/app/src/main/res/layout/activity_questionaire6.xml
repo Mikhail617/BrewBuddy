@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/txtTitle"
         android:layout_centerHorizontal="true"
-        android:text="@string/Q3Subtitle"
+        android:text="@string/Q4Subtitle"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <!-- question 1 text -->
@@ -30,31 +30,45 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/txtSubTitle"
         android:layout_marginTop="38dp"
-        android:text="@string/Q3"
+        android:text="@string/Q4"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <!-- radio group to allow for only one radio button selection -->
     <RadioGroup
-        android:id="@+id/radioAnswers3"
+        android:id="@+id/radioAnswers6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/txtQ1" >
 
         <!-- 1st answer radio button-->
         <RadioButton
-            android:id="@+id/radioButtonYes"
+            android:id="@+id/radioButtonDarkerBrewOption1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="48dp"
             android:checked="false"
-            android:text="@string/yes" />
+            android:text="@string/DarkerBrewFlavorOption1" />
 
         <!-- 2nd answer radio button-->
         <RadioButton
-            android:id="@+id/radioA2"
+            android:id="@+id/radioButtonDarkerBrewOption2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/no" />
+            android:text="@string/DarkerBrewFlavorOption2" />
+
+        <!-- 3rd answer radio button-->
+        <RadioButton
+            android:id="@+id/radioButtonDarkerBrewOption3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/DarkerBrewFlavorOption3" />
+
+        <!-- 4th answer radio button-->
+        <RadioButton
+            android:id="@+id/radioButtonDarkerBrewOption4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/DarkerBrewFlavorOption4" />
 
     </RadioGroup>
 
@@ -66,5 +80,5 @@
         android:layout_alignParentBottom="true"
         android:layout_toRightOf="@+id/txtTitle"
         android:text="@string/next"
-        android:onClick="nextButtonClickFunction3"/>
+        android:onClick="resultButtonClickFunction"/>
 </RelativeLayout>
