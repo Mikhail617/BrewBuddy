@@ -60,6 +60,7 @@ public class BreweryListAcitvity extends AppCompatActivity {
             String selectQuery = "SELECT * FROM " + BrewBuddyDatabaseContract.Breweries.TABLE_BREWERIES;
             Cursor cursor = db.rawQuery(selectQuery, null);
             if (cursor.getCount() > 0) {
+                cursor.moveToNext(); // skip the headers
                 while (cursor.moveToNext()) {
                     // Read columns data
                     //int outlet_id = cursor.getInt(cursor.getColumnIndex("_ID"));

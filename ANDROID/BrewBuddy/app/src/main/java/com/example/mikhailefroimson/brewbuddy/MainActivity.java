@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         List breweryList = csvFile.read();
 
         // For Testing
-        dataHelper.resetDatabase();
+        //dataHelper.resetDatabase();
 
         for(Object breweryData:breweryList ) {
             String[] brewery_data_for_db = {"", "", "", "", "", "", "", "", ""};
@@ -50,8 +50,8 @@ public class MainActivity extends AppCompatActivity {
             String phone = brewery_data_for_db[4].replace("Phone:", "");
             String type = brewery_data_for_db[5].replace("Type:", "");
             String website = brewery_data_for_db[6];
-            if(address.contains("NJ") || address.contains("NY") || address.contains("CT") || address.contains("MA"))
-                dataHelper.addBrewery(name, address, type, phone, website);
+            //if(address.contains("NJ") || address.contains("NY") || address.contains("CT") || address.contains("MA"))
+            //    dataHelper.addBrewery(name, address, type, phone, website);
             // big data test
             //dataHelper.addBrewery(name, address, type, phone, website);
         }

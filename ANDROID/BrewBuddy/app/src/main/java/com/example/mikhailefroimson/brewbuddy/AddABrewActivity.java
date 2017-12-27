@@ -41,4 +41,8 @@ public class AddABrewActivity extends AppCompatActivity {
         String availability = brewAvailabilityTextField.getText().toString();
         bbdb.addBrew(name, type, abv, desc, brewery, price, availability);
     }
+
+    public void addPicture() {
+
+    }
 }

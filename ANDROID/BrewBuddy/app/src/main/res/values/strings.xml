@@ -3,7 +3,7 @@
     <string name="title_activity_brew_buddy_map">Brewery Map</string>
     <string name="label_map_button">Brewery Map</string>
     <string name="title_activity_brewery_list">Breweries</string>
-    <string name="BrewInfo">__________ New Brew Info: __________</string>
+    <string name="BrewInfo">___________ New Brew Info: ___________</string>
     <string name="BrewName">Name</string>
     <string name="BrewType">Type</string>
     <string name="ABV">ABV</string>
