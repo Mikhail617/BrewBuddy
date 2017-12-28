@@ -1,6 +1,8 @@
 package com.example.mikhailefroimson.brewbuddy;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -8,9 +10,12 @@ import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class BrewListActivity extends AppCompatActivity {
     private Context context;
@@ -77,6 +82,36 @@ public class BrewListActivity extends AppCompatActivity {
                         tv.setText(text);
                         row.addView(tv);
                     }
+                    row.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            final AlertDialog alertDialog = new AlertDialog.Builder(BrewListActivity.this).create(); //Read Update
+                            alertDialog.setTitle("Brew Info:");
+                            TableRow tr = (TableRow) v;
+                            TextView tv_name = (TextView) tr.getChildAt(0);
+                            String text_name = tv_name.getText().toString();
+                            TextView tv_type = (TextView) tr.getChildAt(1);
+                            String text_type = tv_type.getText().toString();
+                            TextView tv_abv = (TextView) tr.getChildAt(2);
+                            String text_abv = tv_abv.getText().toString();
+                            TextView tv_desc = (TextView) tr.getChildAt(3);
+                            String text_desc = tv_desc.getText().toString();
+                            TextView tv_brewery = (TextView) tr.getChildAt(4);
+                            String text_brewery = tv_brewery.getText().toString();
+                            String text = "Name: " + text_name + "\n" +
+                                            "Brewery: " + text_brewery + "\n" +
+                                            "Type: " + text_type + "\n" +
+                                            "Description: " + text_desc + "\n" +
+                                            "ABV: " + text_abv +"%";
+                            alertDialog.setMessage(text);
+                            alertDialog.setButton("Continue..", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // bring up the menu activity
+                                }
+                            });
+                            alertDialog.show();  //<-- See This!
+                        }
+                    });
                     tableLayout.addView(row);
                 }
             }

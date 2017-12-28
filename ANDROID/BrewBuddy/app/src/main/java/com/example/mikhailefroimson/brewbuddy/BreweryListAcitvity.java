@@ -1,6 +1,8 @@
 package com.example.mikhailefroimson.brewbuddy;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -8,13 +10,18 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -86,8 +93,42 @@ public class BreweryListAcitvity extends AppCompatActivity {
                         tv.setText(text);
                         row.addView(tv);
                     }
+                    row.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            final TextView message = new TextView(context);
+                            AlertDialog alertDialog = new AlertDialog.Builder(BreweryListAcitvity.this).create(); //Read Update
+                            alertDialog.setTitle("Brewery Info:");
+                            TableRow tr = (TableRow) v;
+                            TextView tv_name = (TextView) tr.getChildAt(0);
+                            String text_name = tv_name.getText().toString();
+                            TextView tv_type = (TextView) tr.getChildAt(1);
+                            String text_type = tv_type.getText().toString();
+                            TextView tv_address = (TextView) tr.getChildAt(2);
+                            String text_address = tv_address.getText().toString();
+                            TextView tv_phone = (TextView) tr.getChildAt(3);
+                            String text_phone = tv_phone.getText().toString();
+                            TextView tv_website = (TextView) tr.getChildAt(4);
+                            String text_website = tv_website.getText().toString();
+                            String msg = text_name + "\n" +
+                                            //"Type: " + text_type + "\n" +
+                                            text_address + "\n" +
+                                            text_phone + "\n" +
+                                            text_website + "";
+                            final SpannableString s = new SpannableString(msg);
+                            Linkify.addLinks(s, Linkify.WEB_URLS);
+                            message.setText(s);
+                            message.setMovementMethod(LinkMovementMethod.getInstance());
+                            alertDialog.setView(message);
+                            alertDialog.setButton("Continue..", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // bring up the menu activity
+                                }
+                            });
+                            alertDialog.show();  //<-- See This!
+                        }
+                    });
                     tableLayout.addView(row);
-
                 }
 
             }
