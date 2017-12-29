@@ -264,18 +264,26 @@ public class BrewBuddyMapActivity extends FragmentActivity implements OnMapReady
         String msg = ((String) brewery.get("name")).trim() + " \n" +
                 ((String) brewery.get("type")).trim() + " \n" +
                 ((String) brewery.get("address")).trim() + " \n" +
-                ((String) brewery.get("phone")).trim() + " \n" + website;
+                ((String) brewery.get("phone")).trim() + " \n" + website + "\n\nBrews:\n";
+
+        // Get the menu items
+        BrewBuddyDatabaseHelper bbdb = new BrewBuddyDatabaseHelper(context);
+        ArrayList<String> results = bbdb.getBrewsByBrewery(((String) brewery.get("name")).trim());
+        for(String brew:results) {
+            msg += brew + "\n";
+        }
+
         final SpannableString s = new SpannableString(msg);
         Linkify.addLinks(s, Linkify.WEB_URLS);
         message.setText(s);
         message.setMovementMethod(LinkMovementMethod.getInstance());
         alertDialog.setView(message);
-        alertDialog.setButton("Continue..", new DialogInterface.OnClickListener() {
+        alertDialog.setButton("Continue", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                // bring up the menu activity
+
             }
         });
-        alertDialog.show();  //<-- See This!
+        alertDialog.show();
         return true;
     }
 

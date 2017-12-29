@@ -25,9 +25,9 @@ public class BrewListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_brews);
         context = this;
         // Create DatabaseHelper instance
-        BrewBuddyDatabaseHelper dataHelper = new BrewBuddyDatabaseHelper(context);
+        final BrewBuddyDatabaseHelper dataHelper = new BrewBuddyDatabaseHelper(context);
         // Reference to TableLayout
-        TableLayout tableLayout = (TableLayout) findViewById(R.id.brewTableLayout);
+        final TableLayout tableLayout = (TableLayout) findViewById(R.id.brewTableLayout);
         // Add header row
         TableRow rowHeader = new TableRow(context);
         rowHeader.setBackgroundColor(Color.parseColor("#c0c0c0"));
@@ -68,7 +68,7 @@ public class BrewListActivity extends AppCompatActivity {
                     String brew_availability = cursor.getString(cursor.getColumnIndex("Availability"));
 
                     // dara rows
-                    TableRow row = new TableRow(context);
+                    final TableRow row = new TableRow(context);
                     row.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
                             TableLayout.LayoutParams.WRAP_CONTENT));
                     String[] colText = {brew_name, brew_type, brew_abv, brew_description, brew_brewery, brew_price, brew_availability};
@@ -82,6 +82,17 @@ public class BrewListActivity extends AppCompatActivity {
                         tv.setText(text);
                         row.addView(tv);
                     }
+                    row.setOnLongClickListener(new View.OnLongClickListener() {
+
+                        @Override
+                        public boolean onLongClick(View v) {
+                            TableRow tr = (TableRow) v;
+                            TextView tv_name = (TextView) tr.getChildAt(0);
+                            String text_name = tv_name.getText().toString();
+                            //dataHelper.deleteBrewByName(text_name);
+                            return true;
+                        }
+                    });
                     row.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -104,12 +115,17 @@ public class BrewListActivity extends AppCompatActivity {
                                             "Description: " + text_desc + "\n" +
                                             "ABV: " + text_abv +"%";
                             alertDialog.setMessage(text);
+                            alertDialog.setButton("Delete?", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            });
                             alertDialog.setButton("Continue..", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
 
                                 }
                             });
-                            alertDialog.show();  //<-- See This!
+                            alertDialog.show();
                         }
                     });
                     tableLayout.addView(row);

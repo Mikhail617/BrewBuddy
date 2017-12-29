@@ -100,7 +100,8 @@ public class BrewBuddyDatabaseHelper extends SQLiteOpenHelper {
         // Gets the data repository in write mode
         String[] names = {name};
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(BrewBuddyDatabaseContract.Brews.TABLE_BREWS, "WHERE Name = ", names);
+        db.execSQL("DELETE FROM " + BrewBuddyDatabaseContract.Brews.TABLE_BREWS + " WHERE Name = '" + name +"'");
+        //db.delete(BrewBuddyDatabaseContract.Brews.TABLE_BREWS, "WHERE Name = ", names);
     }
 
     public void addBrewery(String brewery_name,
@@ -136,6 +137,22 @@ public class BrewBuddyDatabaseHelper extends SQLiteOpenHelper {
                 if(brew_type.contains(type)) {
                     results.add(brew_name);
                 }
+            }
+        }
+        return results;
+    }
+
+    public ArrayList<String> getBrewsByBrewery(String brewery_name) {
+        ArrayList<String> results = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        String selectQuery = "SELECT * FROM " + BrewBuddyDatabaseContract.Brews.TABLE_BREWS +
+                " WHERE Brewery LIKE '%" + brewery_name + "%'";
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
+                // TODO: Should only return results within the geo-fence eventually
+                String brew_name = cursor.getString(cursor.getColumnIndex("Name"));
+                results.add(brew_name);
             }
         }
         return results;
