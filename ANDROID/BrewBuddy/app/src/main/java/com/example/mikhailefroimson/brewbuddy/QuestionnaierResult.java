@@ -1,5 +1,9 @@
 package com.example.mikhailefroimson.brewbuddy;
 
+import android.widget.TextView;
+
+import java.util.ArrayList;
+
 /**
  * Created by mikhail.efroimson on 12/23/2017.
  */
@@ -73,26 +77,31 @@ public class QuestionnaierResult {
         } else {
             switch_option = getFlavorOption();
         }
-        switch(switch_option+1) {
+        switch(switch_option) {
+            case 0:
+                return "Pale Lager";
             case 1:
-                return "Pale Larger/Pilsner";
-            case 2:
                 return "Blonde Ale";
-            case 3:
+            case 2:
                 return "Hefeweizen";
+            case 3:
+                return "Pale Ale";
             case 4:
-                return "Pale Ale/IPA";
-            case 5:
                 return "Amber Ale";
-            case 6:
+            case 5:
                 return "Irish Red Ale";
-            case 7:
+            case 6:
                 return "Brown Ale";
-            case 8:
+            case 7:
                 return "Porter";
-            case 9:
+            case 8:
                 return "Stout";
         }
         return result;
+    }
+
+    public ArrayList<String> findLocalBrewsByType(String type) {
+        ArrayList<String> brews = new ArrayList<>();
+        return brews;
     }
 }

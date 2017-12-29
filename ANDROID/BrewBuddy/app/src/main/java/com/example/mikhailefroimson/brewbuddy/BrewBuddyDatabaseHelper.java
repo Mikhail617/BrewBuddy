@@ -96,6 +96,13 @@ public class BrewBuddyDatabaseHelper extends SQLiteOpenHelper {
         long newRowId = db.insert(BrewBuddyDatabaseContract.Brews.TABLE_BREWS, null, values);
     }
 
+    public void deleteBrewByName(String name) {
+        // Gets the data repository in write mode
+        String[] names = {name};
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(BrewBuddyDatabaseContract.Brews.TABLE_BREWS, "WHERE Name = ", names);
+    }
+
     public void addBrewery(String brewery_name,
                            String brewery_address,
                            String brewery_type,
@@ -114,6 +121,24 @@ public class BrewBuddyDatabaseHelper extends SQLiteOpenHelper {
 
         // Insert the new row, returning the primary key value of the new row
         long newRowId = db.insert(BrewBuddyDatabaseContract.Breweries.TABLE_BREWERIES, null, values);
+    }
+
+    public ArrayList<String> getBrewsByType(String type) {
+        ArrayList<String> results = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        String selectQuery = "SELECT * FROM " + BrewBuddyDatabaseContract.Brews.TABLE_BREWS +
+                                " WHERE Type LIKE '%" + type + "%'";
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
+                String brew_name = cursor.getString(cursor.getColumnIndex("Name"));
+                String brew_type = cursor.getString(cursor.getColumnIndex("Type"));
+                if(brew_type.contains(type)) {
+                    results.add(brew_name);
+                }
+            }
+        }
+        return results;
     }
 
     public void resetDatabase() {

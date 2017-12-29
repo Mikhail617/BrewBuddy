@@ -106,7 +106,7 @@ public class BrewListActivity extends AppCompatActivity {
                             alertDialog.setMessage(text);
                             alertDialog.setButton("Continue..", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    // bring up the menu activity
+
                                 }
                             });
                             alertDialog.show();  //<-- See This!

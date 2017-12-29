@@ -58,4 +58,5 @@
     <string name="darker">Darker</string>
     <string name="next">Next</string>
     <string name="ResultTitle">Based on your answers, we suggest a...</string>
+    <string name="SearchSuggestedResults">Find Local Options</string>
 </resources>

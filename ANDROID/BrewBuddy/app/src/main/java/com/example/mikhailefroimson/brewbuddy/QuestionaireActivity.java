@@ -1,13 +1,21 @@
 package com.example.mikhailefroimson.brewbuddy;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class QuestionaireActivity extends AppCompatActivity {
+
+    Context context;
 
     private RadioGroup radioGroupQ1;
     private RadioGroup radioGroupQ2;
@@ -26,6 +34,7 @@ public class QuestionaireActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context = this;
         setContentView(R.layout.activity_questionaire1);
     }
 
@@ -84,23 +93,23 @@ public class QuestionaireActivity extends AppCompatActivity {
 
         // set correct food options
         if(selectedQ4Id == R.id.radioButtonFoodOption1)
-            qr.setFoodOption(1);
+            qr.setFoodOption(0);
         if(selectedQ4Id == R.id.radioButtonFoodOption2)
-            qr.setFoodOption(2);
+            qr.setFoodOption(1);
         if(selectedQ4Id == R.id.radioButtonFoodOption3)
-            qr.setFoodOption(3);
+            qr.setFoodOption(2);
         if(selectedQ4Id == R.id.radioButtonFoodOption4)
-            qr.setFoodOption(4);
+            qr.setFoodOption(3);
         if(selectedQ4Id == R.id.radioButtonFoodOption5)
-            qr.setFoodOption(5);
+            qr.setFoodOption(4);
         if(selectedQ4Id == R.id.radioButtonFoodOption6)
-            qr.setFoodOption(6);
+            qr.setFoodOption(5);
         if(selectedQ4Id == R.id.radioButtonFoodOption7)
-            qr.setFoodOption(7);
+            qr.setFoodOption(6);
         if(selectedQ4Id == R.id.radioButtonFoodOption8)
-            qr.setFoodOption(8);
+            qr.setFoodOption(7);
         if(selectedQ4Id == R.id.radioButtonFoodOption9)
-            qr.setFoodOption(9);
+            qr.setFoodOption(8);
 
         if(selectedQ2Id == R.id.radioButtonLighter) {
             if(selectedQ5Id == R.id.radioButtonLighterBrewOption1)
@@ -132,13 +141,13 @@ public class QuestionaireActivity extends AppCompatActivity {
         RelativeLayout layout =(RelativeLayout)findViewById(R.id.resultView);
 
         // Set the right picture based on result
-        if(result.equals("Pale Larger/Pilsner"))
+        if(result.equals("Pale Lager"))
             layout.setBackgroundResource(R.drawable.pilsner);
         else if(result.equals("Blonde Ale"))
             layout.setBackgroundResource(R.drawable.blonde_ale);
         else if(result.equals("Hefeweizen"))
             layout.setBackgroundResource(R.drawable.hefeweizen);
-        else if(result.equals("Pale Ale/IPA"))
+        else if(result.equals("Pale Ale"))
             layout.setBackgroundResource(R.drawable.pale_ale);
         else if(result.equals("Amber Ale"))
             layout.setBackgroundResource(R.drawable.amber_ale);
@@ -152,5 +161,27 @@ public class QuestionaireActivity extends AppCompatActivity {
             layout.setBackgroundResource(R.drawable.stout);
         else
             layout.setBackgroundResource(R.drawable.default_background);
+
+        Button findLocalOptions = (Button) findViewById(R.id.btnFindLocalResults);
+
+        findLocalOptions.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                //Intent intent = new Intent(this, SuggestedResultsActivity.class);
+                //startActivity(intent);
+                AlertDialog alertDialog = new AlertDialog.Builder(QuestionaireActivity.this).create();
+                alertDialog.setTitle("Local options found...");
+                QuestionnaierResult qr = QuestionnaierResult.getInstance();
+                BrewBuddyDatabaseHelper bbdb = new BrewBuddyDatabaseHelper(context);
+                ArrayList<String> results = bbdb.getBrewsByType(qr.findBrewType());
+                String message = "";
+                for(String brew:results) {
+                    message += brew + "\n";
+                }
+                alertDialog.setMessage(message);
+                alertDialog.show();
+            }
+        });
     }
 }

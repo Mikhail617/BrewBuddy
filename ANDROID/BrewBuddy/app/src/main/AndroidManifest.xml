@@ -50,7 +50,8 @@
         <activity android:name=".AboutScreenActivity" />
         <activity android:name=".QuestionaireActivity" />
         <activity android:name=".SponsoredLinksActivity" />
-        <activity android:name=".FavoritesActivity"></activity>
+        <activity android:name=".FavoritesActivity" />
+        <activity android:name=".SuggestedResultsActivity"></activity>
     </application>
 
 </manifest>
