@@ -10,15 +10,20 @@ import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class BrewListActivity extends AppCompatActivity {
     private Context context;
+    private static TableRow current_row;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,13 +88,41 @@ public class BrewListActivity extends AppCompatActivity {
                         row.addView(tv);
                     }
                     row.setOnLongClickListener(new View.OnLongClickListener() {
-
                         @Override
                         public boolean onLongClick(View v) {
-                            TableRow tr = (TableRow) v;
+                            current_row = (TableRow) v;
+                            /*TableRow tr = (TableRow) v;
                             TextView tv_name = (TextView) tr.getChildAt(0);
                             String text_name = tv_name.getText().toString();
-                            //dataHelper.deleteBrewByName(text_name);
+                            //dataHelper.deleteBrewByName(text_name); */
+
+                            AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                            LayoutInflater inflater = getLayoutInflater();
+                            //inflate view for alertdialog since we are using multiple views inside a viewgroup (root = Layout top-level) (linear, relative, framelayout etc..)
+                            View view = inflater.inflate(R.layout.brew_list_alert_dialog, (ViewGroup) findViewById(R.id.brewTableLayout), false);
+
+                            Button save_button = (Button) view.findViewById(R.id.Save);
+                            Button delete_button = (Button) view.findViewById(R.id.Delete);
+
+                            delete_button.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    TextView tv_name = (TextView) current_row.getChildAt(0);
+                                    String text_name = tv_name.getText().toString();
+                                    dataHelper.deleteBrewByName(text_name);
+                                    Toast.makeText(context,"Deleting...", Toast.LENGTH_LONG).show();
+                                }
+                            });
+
+                            save_button.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+
+                                }
+                            });
+
+                            alert.setView(view);
+                            alert.show();
                             return true;
                         }
                     });
@@ -120,7 +153,7 @@ public class BrewListActivity extends AppCompatActivity {
 
                                 }
                             });
-                            alertDialog.setButton("Continue..", new DialogInterface.OnClickListener() {
+                            alertDialog.setButton("Continue", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
 
                                 }
