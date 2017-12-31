@@ -120,7 +120,7 @@ public class BreweryListAcitvity extends AppCompatActivity {
                             message.setText(s);
                             message.setMovementMethod(LinkMovementMethod.getInstance());
                             alertDialog.setView(message);
-                            alertDialog.setButton("Continue..", new DialogInterface.OnClickListener() {
+                            alertDialog.setButton("Continue", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     // bring up the menu activity
                                 }
