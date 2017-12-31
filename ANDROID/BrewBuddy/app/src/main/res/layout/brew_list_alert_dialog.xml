@@ -1,6 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
+    <EditText
+        android:id="@+id/EditTextName"
+        android:layout_height="wrap_content"
+        android:hint="@string/BrewName"
+        android:inputType="text"
+        android:layout_width="fill_parent">
+    </EditText>
+
+    <EditText
+        android:id="@+id/EditTextType"
+        android:layout_height="wrap_content"
+        android:hint="@string/BrewType"
+        android:inputType="text"
+        android:layout_width="fill_parent"
+        android:layout_below="@+id/EditTextName">
+    </EditText>
+
+    <EditText
+        android:id="@+id/EditTextABV"
+        android:layout_height="wrap_content"
+        android:hint="@string/ABV"
+        android:inputType="text"
+        android:layout_width="fill_parent"
+        android:layout_below="@+id/EditTextType">
+    </EditText>
+
+    <EditText
+        android:id="@+id/EditTextDescription"
+        android:layout_height="wrap_content"
+        android:hint="@string/Description"
+        android:inputType="text"
+        android:layout_width="fill_parent"
+        android:layout_below="@+id/EditTextABV">
+    </EditText>
+
+    <EditText
+        android:id="@+id/EditTextBrewery"
+        android:layout_height="wrap_content"
+        android:hint="@string/BreweryName"
+        android:inputType="text"
+        android:layout_width="fill_parent"
+        android:layout_below="@+id/EditTextDescription">
+    </EditText>
+
+    <EditText
+        android:id="@+id/EditTextPrice"
+        android:layout_height="wrap_content"
+        android:hint="@string/Price"
+        android:inputType="text"
+        android:layout_width="fill_parent"
+        android:layout_below="@+id/EditTextBrewery">
+    </EditText>
+
+    <EditText
+        android:id="@+id/EditTextAvailability"
+        android:layout_height="wrap_content"
+        android:hint="@string/Availability"
+        android:inputType="text"
+        android:layout_width="fill_parent"
+        android:layout_below="@+id/EditTextPrice">
+    </EditText>
 
     <Button
         android:id="@+id/Save"

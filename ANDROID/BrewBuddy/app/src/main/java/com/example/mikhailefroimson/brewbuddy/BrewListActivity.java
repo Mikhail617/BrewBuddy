@@ -19,6 +19,8 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 public class BrewListActivity extends AppCompatActivity {
@@ -104,6 +106,38 @@ public class BrewListActivity extends AppCompatActivity {
                             Button save_button = (Button) view.findViewById(R.id.Save);
                             Button delete_button = (Button) view.findViewById(R.id.Delete);
 
+                            TextView tv_name = (TextView) current_row.getChildAt(0);
+                            String text_name = tv_name.getText().toString();
+                            TextView tv_type = (TextView) current_row.getChildAt(1);
+                            String text_type = tv_type.getText().toString();
+                            TextView tv_abv = (TextView) current_row.getChildAt(2);
+                            String text_abv = tv_abv.getText().toString();
+                            TextView tv_desc = (TextView) current_row.getChildAt(3);
+                            String text_desc = tv_desc.getText().toString();
+                            TextView tv_brewery = (TextView) current_row.getChildAt(4);
+                            String text_brewery = tv_brewery.getText().toString();
+                            TextView tv_price = (TextView) current_row.getChildAt(5);
+                            String text_price = tv_price.getText().toString();
+                            TextView tv_avail = (TextView) current_row.getChildAt(6);
+                            String text_availability = tv_avail.getText().toString();
+
+                            alert.setTitle(text_name);
+
+                            TextView name_tv = (TextView) view.findViewById(R.id.EditTextName);
+                            name_tv.setText(text_name);
+                            TextView type_tv = (TextView) view.findViewById(R.id.EditTextType);
+                            type_tv.setText(text_type);
+                            TextView abv_tv = (TextView) view.findViewById(R.id.EditTextABV);
+                            abv_tv.setText(text_abv);
+                            TextView desc_tv = (TextView) view.findViewById(R.id.EditTextDescription);
+                            desc_tv.setText(text_desc);
+                            TextView brewery_tv = (TextView) view.findViewById(R.id.EditTextBrewery);
+                            brewery_tv.setText(text_brewery);
+                            TextView price_tv = (TextView) view.findViewById(R.id.EditTextPrice);
+                            price_tv.setText(text_price);
+                            TextView avail_tv = (TextView) view.findViewById(R.id.EditTextAvailability);
+                            avail_tv.setText(text_availability);
+
                             delete_button.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -117,7 +151,10 @@ public class BrewListActivity extends AppCompatActivity {
                             save_button.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-
+                                    TextView tv_name = (TextView) current_row.getChildAt(0);
+                                    String text_name = tv_name.getText().toString();
+                                    //dataHelper.updateBrewByName(text_name);
+                                    Toast.makeText(context,"Updating...", Toast.LENGTH_LONG).show();
                                 }
                             });
 

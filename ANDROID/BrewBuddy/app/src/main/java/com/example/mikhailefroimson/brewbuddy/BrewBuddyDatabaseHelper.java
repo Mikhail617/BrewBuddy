@@ -98,10 +98,35 @@ public class BrewBuddyDatabaseHelper extends SQLiteOpenHelper {
 
     public void deleteBrewByName(String name) {
         // Gets the data repository in write mode
-        String[] names = {name};
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("DELETE FROM " + BrewBuddyDatabaseContract.Brews.TABLE_BREWS + " WHERE Name = '" + name +"'");
-        //db.delete(BrewBuddyDatabaseContract.Brews.TABLE_BREWS, "WHERE Name = ", names);
+        db.execSQL("DELETE FROM " + BrewBuddyDatabaseContract.Brews.TABLE_BREWS + " WHERE Name = '" +
+                    name +"'");
+    }
+
+    public void updateBrewByName(String id,
+                                 String name,
+                                 String type,
+                                 String abv,
+                                 String description,
+                                 String brewery,
+                                 String price,
+                                 String availability) {
+        // Gets the data repository in write mode
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("UPDATE " + BrewBuddyDatabaseContract.Brews.TABLE_BREWS + " SET Name = " + name +
+                    " WHERE _ID = '" + id +"'");
+        db.execSQL("UPDATE " + BrewBuddyDatabaseContract.Brews.TABLE_BREWS + " SET Type = " + type +
+                    " WHERE _ID = '" + id +"'");
+        db.execSQL("UPDATE " + BrewBuddyDatabaseContract.Brews.TABLE_BREWS + " SET ABV = " + abv +
+                    " WHERE _ID = '" + id +"'");
+        db.execSQL("UPDATE " + BrewBuddyDatabaseContract.Brews.TABLE_BREWS + " SET Description = " +
+                    description + " WHERE _ID = '" + id +"'");
+        db.execSQL("UPDATE " + BrewBuddyDatabaseContract.Brews.TABLE_BREWS + " SET Brewery = " + brewery +
+                    " WHERE _ID = '" + id +"'");
+        db.execSQL("UPDATE " + BrewBuddyDatabaseContract.Brews.TABLE_BREWS + " SET Price = " + price +
+                    " WHERE _ID = '" + id +"'");
+        db.execSQL("UPDATE " + BrewBuddyDatabaseContract.Brews.TABLE_BREWS + " SET Availability = " +
+                    availability + " WHERE _ID = '" + id +"'");
     }
 
     public void addBrewery(String brewery_name,
@@ -194,6 +219,5 @@ public class BrewBuddyDatabaseHelper extends SQLiteOpenHelper {
         Log.d("DATABSE DEBUG", Arrays.toString(arrTblNames.toArray()));
 
     }
-
 }
 
